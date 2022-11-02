@@ -1,4 +1,4 @@
-Feature: Retrieve remote-pom
+Feature: Retrieve all dependencies
 
   Scenario: Retrieve all the dependencies
     When A user asks for the dependencies of all projects

@@ -1,11 +1,9 @@
-package com.globaldashboard.controller;
+package com.globaldashboard.application.controller;
 
 import com.globaldashboard.domain.Pom;
-import com.globaldashboard.service.PomXMLToDomainPomService;
+import com.globaldashboard.domain.service.DomainPomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -20,10 +18,10 @@ import java.net.URL;
 @RequestMapping("pom")
 public class PomController {
 
-    private PomXMLToDomainPomService pomXMLToDomainPomService;
+    private DomainPomService pomXMLToDomainPomService;
 
     @Autowired
-    public PomController(PomXMLToDomainPomService pomXMLToDomainPomService) {
+    public PomController(DomainPomService pomXMLToDomainPomService) {
         this.pomXMLToDomainPomService = pomXMLToDomainPomService;
     }
 
@@ -34,17 +32,13 @@ public class PomController {
         URL url;
         try {
             url = new URL(pomURL);
-            HttpURLConnection pomResponse = null;
+            HttpURLConnection pomResponse;
             pomResponse = (HttpURLConnection) url.openConnection();
             pomResponse.setRequestMethod("GET");
-
-            Document pomXML = DocumentBuilderFactory.newInstance()
-                    .newDocumentBuilder()
-                    .parse(pomResponse.getInputStream());
+            Document pomXML = getPomXML(pomResponse);
             pomResponse.disconnect();
 
-            
-            return this.pomXMLToDomainPomService.toDomainPom(pomXML);
+            return this.pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -55,4 +49,11 @@ public class PomController {
 
         return null;
     }
+
+    private Document getPomXML(HttpURLConnection pomResponse) throws SAXException, IOException, ParserConfigurationException {
+        return DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder()
+                .parse(pomResponse.getInputStream());
+    }
 }
+

@@ -1,4 +1,4 @@
-package com.globaldashboard.service;
+package com.globaldashboard.domain.service;
 
 import com.globaldashboard.domain.Dependency;
 import com.globaldashboard.domain.Pom;
@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PomXMLToDomainPomService {
-    public Pom toDomainPom(Document pomXML) {
+public class DomainPomService implements PomService {
+
+    @Override
+    public Pom parseXMLPOM(Document pomXML) {
         Element documentElement = pomXML.getDocumentElement();
 
         String projectVersion = documentElement.getElementsByTagName("version").item(1).getTextContent();

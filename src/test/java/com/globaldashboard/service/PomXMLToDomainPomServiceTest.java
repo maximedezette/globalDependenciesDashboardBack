@@ -1,6 +1,7 @@
 package com.globaldashboard.service;
 
 import com.globaldashboard.domain.Pom;
+import com.globaldashboard.domain.service.DomainPomService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -20,45 +21,45 @@ public class PomXMLToDomainPomServiceTest {
 
     private Document pomXML;
 
-    private PomXMLToDomainPomService pomXMLToDomainPomService;
+    private DomainPomService pomXMLToDomainPomService;
 
     @BeforeAll
     void setUp() throws IOException, ParserConfigurationException, SAXException {
         pomXML = getPom();
-        pomXMLToDomainPomService = new PomXMLToDomainPomService();
+        pomXMLToDomainPomService = new DomainPomService();
     }
 
     @Test
     void shouldExtractProjectNameFromXML() {
-        Pom pom = pomXMLToDomainPomService.toDomainPom(pomXML);
+        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.projectName()).isEqualTo("aperotech");
     }
 
     @Test
     void shouldExtractProjectVersionFromXML()  {
-        Pom pom = pomXMLToDomainPomService.toDomainPom(pomXML);
+        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.projectVersion()).isEqualTo("0.0.1-SNAPSHOT");
     }
 
     @Test
     void shouldExtractDescriptionFromXML()  {
-        Pom pom = pomXMLToDomainPomService.toDomainPom(pomXML);
+        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.description()).isEqualTo("Demo project for Apero Tech");
     }
 
     @Test
     void shouldExtractJavaVersionFromXML()  {
-        Pom pom = pomXMLToDomainPomService.toDomainPom(pomXML);
+        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.java()).isEqualTo("17");
     }
 
     @Test
     void shouldExtractDependenciesFromXML()  {
-        Pom pom = pomXMLToDomainPomService.toDomainPom(pomXML);
+        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.dependencies()).hasSize(18);
     }
