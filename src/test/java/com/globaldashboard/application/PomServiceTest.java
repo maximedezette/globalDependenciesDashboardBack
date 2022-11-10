@@ -1,7 +1,6 @@
-package com.globaldashboard.service;
+package com.globaldashboard.application;
 
 import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.service.DomainPomService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,16 +16,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PomXMLToDomainPomServiceTest {
+public class PomServiceTest {
 
     private Document pomXML;
 
-    private DomainPomService pomXMLToDomainPomService;
+    private PomService pomXMLToDomainPomService;
 
     @BeforeAll
     void setUp() throws IOException, ParserConfigurationException, SAXException {
         pomXML = getPom();
-        pomXMLToDomainPomService = new DomainPomService();
+        pomXMLToDomainPomService = new PomService();
     }
 
     @Test
@@ -65,7 +64,7 @@ public class PomXMLToDomainPomServiceTest {
     }
 
     private Document getPom() throws SAXException, IOException, ParserConfigurationException {
-        File pomFile = new File("src/test/java/com/aperotech/kata/fixture/pom.xml");
+        File pomFile = new File("src/test/java/com/globaldashboard/fixture/pom.xml");
         return DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(pomFile);

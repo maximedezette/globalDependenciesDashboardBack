@@ -1,9 +1,11 @@
-package com.globaldashboard.application.controller;
+package com.globaldashboard.infrastructure.primary;
 
 import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.service.DomainPomService;
+import com.globaldashboard.domain.port.primary.DependenciesFromPom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -16,13 +18,13 @@ import java.net.URL;
 
 @RestController
 @RequestMapping("pom")
-public class PomController {
+public class PomResource {
 
-    private DomainPomService pomXMLToDomainPomService;
+    private final DependenciesFromPom pomXMLToDomainPomService;
 
     @Autowired
-    public PomController(DomainPomService pomXMLToDomainPomService) {
-        this.pomXMLToDomainPomService = pomXMLToDomainPomService;
+    public PomResource(DependenciesFromPom dependenciesFromPomService) {
+        this.pomXMLToDomainPomService = dependenciesFromPomService;
     }
 
     @GetMapping
