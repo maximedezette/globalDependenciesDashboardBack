@@ -23,4 +23,8 @@ public class ProjectService {
                 .stream().map(ProjectEntity::toDomain)
                 .collect(Collectors.toSet());
     }
+
+    public void save(Project project) {
+        this.projectRepository.save(ProjectEntity.from(project));
+    }
 }

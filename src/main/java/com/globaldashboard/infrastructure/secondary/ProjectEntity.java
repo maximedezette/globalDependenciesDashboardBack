@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "project")
 public class ProjectEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
     private long id;
 
@@ -21,6 +21,14 @@ public class ProjectEntity {
 
     public Project toDomain() {
         return new Project(this.name, this.pomURL);
+    }
+
+    public static ProjectEntity from(Project project) {
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setName(project.name());
+        projectEntity.setPomURL(project.pomURL());
+
+        return projectEntity;
     }
 
     public long getId() {

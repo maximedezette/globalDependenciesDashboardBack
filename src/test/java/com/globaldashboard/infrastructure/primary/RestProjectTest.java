@@ -19,4 +19,16 @@ class RestProjectTest {
                 .isEqualTo(expectedRestProject);
     }
 
+    @Test
+    void shouldConvertTpDomainProject() {
+        Project expectedProject = new Project("projectName", "https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+        RestProject restProject = new RestProject("projectName", "https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+
+        Project project = restProject.toDomain();
+
+        assertThat(project)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedProject);
+    }
+
 }

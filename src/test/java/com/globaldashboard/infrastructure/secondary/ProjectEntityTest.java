@@ -20,4 +20,18 @@ class ProjectEntityTest {
                 .isEqualTo(project);
     }
 
+    @Test
+    void shouldConvertFromDomainProject(){
+        ProjectEntity expectedProjectEntity = new ProjectEntity();
+        expectedProjectEntity.setName("projectName");
+        expectedProjectEntity.setPomURL("https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+        Project project = new Project("projectName", "https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+
+        ProjectEntity projectEntity = ProjectEntity.from(project);
+
+        assertThat(projectEntity)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedProjectEntity);
+    }
+
 }

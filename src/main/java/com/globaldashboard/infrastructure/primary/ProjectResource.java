@@ -2,9 +2,7 @@ package com.globaldashboard.infrastructure.primary;
 
 import com.globaldashboard.application.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -21,10 +19,15 @@ public class ProjectResource {
     }
 
     @GetMapping
-    Collection<RestProject> getAllProjects() {
+    public Collection<RestProject> getAllProjects() {
             return this.projectService.getAllProjects()
                     .stream()
                     .map(RestProject::from)
                     .collect(Collectors.toSet());
+    }
+
+    @PostMapping
+    public void saveProject(@RequestBody RestProject restProject) {
+        this.projectService.save(restProject.toDomain());
     }
 }

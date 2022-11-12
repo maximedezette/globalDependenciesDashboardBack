@@ -4,14 +4,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globaldashboard.domain.port.secondary.ProjectRepository;
 import com.globaldashboard.infrastructure.secondary.ProjectEntity;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -58,5 +63,36 @@ public class ProjectStepDefs {
         kataApi.setPomURL("https://github.com/maximedezette/kata-api/blob/main/pom.xml");
 
         return List.of(aperoTech, kataApi);
+    }
+
+    @Given("There are not projects stored in the database")
+    public void thereAreNotProjectsStoredInTheDatabase() {
+        this.projectRepository.deleteAll();
+    }
+
+    @When("A user create a project with these information")
+    public void aUserCreateAProjectWithTheseInformation(DataTable dataTable) {
+        RequestSpecification request = RestAssured.given();
+        Map<String, String> valueMap = dataTable.transpose().asMap();
+
+        String projectName = valueMap.get("name");
+        String pomURL = valueMap.get("pomURL");
+
+        JSONObject requestParams = new JSONObject();
+        requestParams.put("name", projectName);
+        requestParams.put("pomURL", pomURL);
+
+        HttpStepDefs.response = request
+                .header("Content-Type", "application/json")
+                .body(requestParams.toJSONString())
+                .post("/projects");
+    }
+    @Then("The project should be created")
+    public void theProjectShouldBeCreated() {
+        ProjectEntity project = this.projectRepository.findByName("AperoTech");
+
+        assertThat(project).isNotNull();
+        assertThat(project.getName()).isEqualTo("AperoTech");
+        assertThat(project.getPomURL()).isEqualTo("https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
     }
 }
