@@ -3,6 +3,7 @@ package cucumber.steps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globaldashboard.domain.port.secondary.ProjectRepository;
+import com.globaldashboard.fixture.ProjectFixtures;
 import com.globaldashboard.infrastructure.secondary.ProjectEntity;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
@@ -12,8 +13,10 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +28,11 @@ public class ProjectStepDefs {
     private ProjectRepository projectRepository;
 
     private ObjectMapper objectMapper;
+
+    @BeforeEach
+    public void cleanProjects() {
+        this.projectRepository.deleteAll();
+    }
 
     @Autowired
     public ProjectStepDefs(ProjectRepository projectRepository) {
@@ -94,5 +102,30 @@ public class ProjectStepDefs {
         assertThat(project).isNotNull();
         assertThat(project.getName()).isEqualTo("AperoTech");
         assertThat(project.getPomURL()).isEqualTo("https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+    }
+
+    @Given("There is a project named {string} stored in the database")
+    public void thereIsAProjectNamedStoredInTheDatabase(String name) {
+        ProjectEntity project = new ProjectEntity();
+        project.setName(name);
+        project.setPomURL(ProjectFixtures.DEFAULT_POM_URL);
+
+        this.projectRepository.save(project);
+    }
+
+    @When("A user delete a project with name {string}")
+    public void aUserDeleteAProjectWithName(String name) {
+        RequestSpecification request = RestAssured.given();
+
+        HttpStepDefs.response = request
+                .header("Content-Type", "application/json")
+                .delete("/projects/" + name);
+    }
+
+    @Then("The project {string} should be deleted")
+    public void theProjectShouldBeDeleted(String name) {
+        ProjectEntity project = this.projectRepository.findByName(name);
+
+        assertThat(project).isNull();
     }
 }

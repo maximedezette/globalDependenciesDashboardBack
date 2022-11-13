@@ -30,4 +30,9 @@ public class ProjectResource {
     public void saveProject(@RequestBody RestProject restProject) {
         this.projectService.save(restProject.toDomain());
     }
+
+    @DeleteMapping("/{projectName}")
+    public void deleteProject(@PathVariable String projectName) {
+        this.projectService.deleteByName(projectName);
+    }
 }

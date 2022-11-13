@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface ProjectRepository extends JpaRepository<ProjectEntity, UUID> {
     ProjectEntity findByName(String projectName);
+
+    void deleteByName(String projectName);
 }

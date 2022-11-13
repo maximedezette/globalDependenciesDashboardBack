@@ -5,6 +5,7 @@ import com.globaldashboard.domain.port.secondary.ProjectRepository;
 import com.globaldashboard.infrastructure.secondary.ProjectEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,5 +27,9 @@ public class ProjectService {
 
     public void save(Project project) {
         this.projectRepository.save(ProjectEntity.from(project));
+    }
+    @Transactional
+    public void deleteByName(String projectName) {
+        this.projectRepository.deleteByName(projectName);
     }
 }
