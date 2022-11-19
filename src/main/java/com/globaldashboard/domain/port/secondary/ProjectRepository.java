@@ -1,12 +1,12 @@
 package com.globaldashboard.domain.port.secondary;
 
-import com.globaldashboard.infrastructure.secondary.ProjectEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.globaldashboard.domain.Project;
 
-import java.util.UUID;
+import java.util.Set;
 
-public interface ProjectRepository extends JpaRepository<ProjectEntity, UUID> {
-    ProjectEntity findByName(String projectName);
-
+public interface ProjectRepository {
+    Project findByName(String projectName);
     void deleteByName(String projectName);
+    Set<Project> findAll();
+    void save(Project project);
 }

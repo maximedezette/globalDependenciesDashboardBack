@@ -2,9 +2,9 @@ package cucumber.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.globaldashboard.domain.port.secondary.ProjectRepository;
 import com.globaldashboard.fixture.ProjectFixtures;
 import com.globaldashboard.infrastructure.secondary.ProjectEntity;
+import com.globaldashboard.infrastructure.secondary.ProjectSpringRepository;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -16,18 +16,16 @@ import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProjectStepDefs {
 
-    private ProjectRepository projectRepository;
+    private final ProjectSpringRepository projectRepository;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @BeforeEach
     public void cleanProjects() {
@@ -35,7 +33,7 @@ public class ProjectStepDefs {
     }
 
     @Autowired
-    public ProjectStepDefs(ProjectRepository projectRepository) {
+    public ProjectStepDefs(ProjectSpringRepository projectRepository) {
         this.projectRepository = projectRepository;
         this.objectMapper = new ObjectMapper();
     }
