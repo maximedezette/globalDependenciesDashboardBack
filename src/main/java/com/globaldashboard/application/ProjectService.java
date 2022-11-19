@@ -27,4 +27,8 @@ public class ProjectService {
     public void deleteByName(String projectName) {
         this.projectRepository.deleteByName(projectName);
     }
+
+    public Project getProjectByName(String name) {
+        return this.projectRepository.findByName(name);
+    }
 }

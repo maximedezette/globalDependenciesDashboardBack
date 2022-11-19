@@ -9,12 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PomStepDefs {
 
-    @When("A user asks for the dependencies of all projects")
-    public void aUserAsksForTheDependenciesOfAllProjects() {
+    @When("A user asks for the dependencies of the project named {string}")
+    public void aUserAsksForTheDependenciesOfTheProjectNamed(String name) {
         RequestSpecification request = RestAssured.given();
 
         HttpStepDefs.response = request
-                .get("/pom");
+                .get("/pom/project/"+ name);
     }
 
     @And("All the dependencies should be displayed")

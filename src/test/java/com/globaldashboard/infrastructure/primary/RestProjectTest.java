@@ -1,6 +1,7 @@
 package com.globaldashboard.infrastructure.primary;
 
 import com.globaldashboard.domain.Project;
+import com.globaldashboard.fixture.ProjectFixtures;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,8 +10,8 @@ class RestProjectTest {
 
     @Test
     void shouldConvertFromDomainProject() {
-        Project project = new Project("projectName", "https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
-        RestProject expectedRestProject = new RestProject("projectName", "https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+        Project project = new Project("projectName", ProjectFixtures.DEFAULT_POM_URL);
+        RestProject expectedRestProject = new RestProject("projectName", ProjectFixtures.DEFAULT_POM_URL);
 
         RestProject restProject = RestProject.from(project);
 
@@ -21,8 +22,8 @@ class RestProjectTest {
 
     @Test
     void shouldConvertTpDomainProject() {
-        Project expectedProject = new Project("projectName", "https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
-        RestProject restProject = new RestProject("projectName", "https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+        Project expectedProject = new Project("projectName", ProjectFixtures.DEFAULT_POM_URL);
+        RestProject restProject = new RestProject("projectName", ProjectFixtures.DEFAULT_POM_URL);
 
         Project project = restProject.toDomain();
 

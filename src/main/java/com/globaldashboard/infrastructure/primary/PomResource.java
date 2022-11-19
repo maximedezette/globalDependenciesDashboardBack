@@ -1,9 +1,11 @@
 package com.globaldashboard.infrastructure.primary;
 
+import com.globaldashboard.application.ProjectService;
 import com.globaldashboard.domain.Pom;
 import com.globaldashboard.domain.port.primary.DependenciesFromPom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Document;
@@ -17,20 +19,22 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @RestController
-@RequestMapping("pom")
+@RequestMapping("/pom")
 public class PomResource {
 
     private final DependenciesFromPom pomXMLToDomainPomService;
+    private final ProjectService projectService;
 
     @Autowired
-    public PomResource(DependenciesFromPom dependenciesFromPomService) {
+    public PomResource(DependenciesFromPom dependenciesFromPomService, ProjectService projectService) {
         this.pomXMLToDomainPomService = dependenciesFromPomService;
+        this.projectService = projectService;
     }
 
-    @GetMapping
-    public Pom get() {
+    @GetMapping("/project/{name}")
+    public Pom get(@PathVariable String name) {
 
-        String pomURL = "https://raw.githubusercontent.com/maximedezette/kata-api/main/pom.xml";
+        String pomURL = this.projectService.getProjectByName(name).pomURL();
         URL url;
         try {
             url = new URL(pomURL);

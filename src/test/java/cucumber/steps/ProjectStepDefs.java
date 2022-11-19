@@ -62,7 +62,7 @@ public class ProjectStepDefs {
     private List<ProjectEntity> getProjects() {
         ProjectEntity aperoTech = new ProjectEntity();
         aperoTech.setName("AperoTech");
-        aperoTech.setPomURL("https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+        aperoTech.setPomURL(ProjectFixtures.DEFAULT_POM_URL);
 
         ProjectEntity kataApi = new ProjectEntity();
         kataApi.setName("KataApi");
@@ -99,7 +99,7 @@ public class ProjectStepDefs {
 
         assertThat(project).isNotNull();
         assertThat(project.getName()).isEqualTo("AperoTech");
-        assertThat(project.getPomURL()).isEqualTo("https://github.com/maximedezette/globalDependenciesDashboardBack/blob/main/pom.xml");
+        assertThat(project.getPomURL()).isEqualTo(ProjectFixtures.DEFAULT_POM_URL);
     }
 
     @Given("There is a project named {string} stored in the database")
