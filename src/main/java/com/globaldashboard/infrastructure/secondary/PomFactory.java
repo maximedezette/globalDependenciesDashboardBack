@@ -1,5 +1,7 @@
-package com.globaldashboard.domain;
+package com.globaldashboard.infrastructure.secondary;
 
+import com.globaldashboard.domain.Dependency;
+import com.globaldashboard.domain.Pom;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

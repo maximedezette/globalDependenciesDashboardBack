@@ -1,8 +1,8 @@
 package com.globaldashboard.application;
 
 import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.PomFactory;
 import com.globaldashboard.domain.port.primary.DependenciesFromPom;
+import com.globaldashboard.infrastructure.secondary.PomFactory;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
