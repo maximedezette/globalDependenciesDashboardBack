@@ -28,7 +28,7 @@ public class PomResource {
     }
 
     @GetMapping("/project/{name}")
-    public Pom get(@PathVariable String name) throws IOException, ParserConfigurationException, SAXException {
+    public Pom get(@PathVariable String name)  {
         String pomURL = this.projectService.getProjectByName(name).pomURL();
 
         return this.pomHttpRetriever.getFromURL(pomURL);
