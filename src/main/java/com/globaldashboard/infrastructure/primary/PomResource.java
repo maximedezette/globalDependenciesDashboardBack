@@ -28,10 +28,11 @@ public class PomResource {
     }
 
     @GetMapping("/project/{name}")
-    public Pom get(@PathVariable String name)  {
+    public RestPom get(@PathVariable String name)  {
         String pomURL = this.projectService.getProjectByName(name).pomURL();
+        Pom pom = this.pomHttpRetriever.getFromURL(pomURL);
 
-        return this.pomHttpRetriever.getFromURL(pomURL);
+        return RestPom.from(pom);
     }
 
 

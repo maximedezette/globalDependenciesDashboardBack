@@ -2,6 +2,7 @@ package com.globaldashboard.infrastructure.secondary;
 
 import com.globaldashboard.domain.Dependency;
 import com.globaldashboard.domain.Pom;
+import com.globaldashboard.domain.SemanticVersion;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -22,7 +23,7 @@ public class PomFactory {
 
         List<Dependency> dependencies = getDependencies(documentElement, projectName, numberOfDependencies);
 
-        return new Pom(projectVersion, projectName, description, java, dependencies);
+        return new Pom(SemanticVersion.from(projectVersion), projectName, description, java, dependencies);
     }
     private List<Dependency> getDependencies(Element documentElement, String projectName, int numberOfDependencies) {
         List<Dependency> dependencies = new ArrayList<>();
