@@ -1,6 +1,7 @@
 package com.globaldashboard.infrastructure.secondary;
 
 import com.globaldashboard.domain.Pom;
+import com.globaldashboard.domain.SemanticVersion;
 import com.globaldashboard.fixture.DocumentPomFixtures;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -35,8 +36,11 @@ class PomEntityFactoryTest {
     @Test
     void shouldExtractProjectVersionFromXML() {
         Pom pom = pomFactory.getPomFrom(pomXML);
+        SemanticVersion expectedVersion = SemanticVersion.from("0.0.1-SNAPSHOT");
 
-        assertThat(pom.projectVersion()).isEqualTo("0.0.1-SNAPSHOT");
+        SemanticVersion version = pom.projectVersion();
+
+        assertThat(version).isEqualTo(expectedVersion);
     }
 
     @Test
