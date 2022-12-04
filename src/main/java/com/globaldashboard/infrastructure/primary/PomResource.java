@@ -2,6 +2,7 @@ package com.globaldashboard.infrastructure.primary;
 
 import com.globaldashboard.application.ProjectService;
 import com.globaldashboard.domain.Pom;
+import com.globaldashboard.domain.Project;
 import com.globaldashboard.domain.port.secondary.PomHttpRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,8 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pom")
@@ -27,8 +30,21 @@ public class PomResource {
         this.pomHttpRetriever = pomHttpRetriever;
     }
 
+    @GetMapping
+    public Set<RestPom> getAll() {
+        Set<String> pomURLs = this.projectService.getAllProjects().stream()
+                .map(Project::pomURL)
+                .collect(Collectors.toSet());
+
+        Set<Pom> poms = this.pomHttpRetriever.getFromURLs(pomURLs);
+
+        return poms.stream()
+                .map(RestPom::from)
+                .collect(Collectors.toSet());
+    }
+
     @GetMapping("/project/{name}")
-    public RestPom get(@PathVariable String name)  {
+    public RestPom get(@PathVariable String name) {
         String pomURL = this.projectService.getProjectByName(name).pomURL();
         Pom pom = this.pomHttpRetriever.getFromURL(pomURL);
 

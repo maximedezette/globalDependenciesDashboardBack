@@ -14,6 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PomServiceHttp implements PomHttpRetriever {
@@ -41,6 +43,13 @@ public class PomServiceHttp implements PomHttpRetriever {
         }
 
         return this.pomFactory.getPomFrom(pomXML);
+    }
+
+    @Override
+    public Set<Pom> getFromURLs(Set<String> pomURLs) {
+        return pomURLs.stream()
+                .map(this::getFromURL)
+                .collect(Collectors.toSet());
     }
 
     private Document getPomXML(HttpURLConnection pomResponse) throws SAXException, IOException, ParserConfigurationException {

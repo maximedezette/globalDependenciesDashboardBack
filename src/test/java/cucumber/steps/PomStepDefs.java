@@ -16,11 +16,24 @@ public class PomStepDefs {
         HttpStepDefs.response = request
                 .get("/pom/project/"+ name);
     }
+    @When("A user asks for all the dependencies")
+    public void aUserAsksForAllTheDependencies() {
+        RequestSpecification request = RestAssured.given();
+
+        HttpStepDefs.response = request
+                .get("/pom");
+    }
+
+    @And("The project dependencies should be displayed")
+    public void theProjectDependenciesShouldBeDisplayed() {
+        assertThat(HttpStepDefs.response.body().asString())
+                .isEqualTo(getExpectedDependencies());
+    }
 
     @And("All the dependencies should be displayed")
     public void allTheDependenciesShouldBeDisplayed() {
         assertThat(HttpStepDefs.response.body().asString())
-                .isEqualTo(getExpectedDependencies());
+                .contains(getExpectedDependencies());
     }
 
     private String getExpectedDependencies() {
