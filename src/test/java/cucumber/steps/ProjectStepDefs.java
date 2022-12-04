@@ -104,11 +104,13 @@ public class ProjectStepDefs {
 
     @Given("There is a project named {string} stored in the database")
     public void thereIsAProjectNamedStoredInTheDatabase(String name) {
-        ProjectEntity project = new ProjectEntity();
-        project.setName(name);
-        project.setPomURL(ProjectFixtures.DEFAULT_POM_URL);
+        if(this.projectRepository.findByName(name) == null) {
+            ProjectEntity project = new ProjectEntity();
+            project.setName(name);
+            project.setPomURL(ProjectFixtures.DEFAULT_POM_URL);
 
-        this.projectRepository.save(project);
+            this.projectRepository.save(project);
+        }
     }
 
     @When("A user delete a project with name {string}")
