@@ -1,4 +1,4 @@
-package com.globaldashboard.infrastructure.primary.exception;
+package com.globaldashboard.dependencies.infrastructure.primary.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

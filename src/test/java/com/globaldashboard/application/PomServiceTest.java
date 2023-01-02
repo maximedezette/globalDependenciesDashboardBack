@@ -1,7 +1,8 @@
 package com.globaldashboard.application;
 
-import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.SemanticVersion;
+import com.globaldashboard.dependencies.application.PomService;
+import com.globaldashboard.dependencies.domain.Pom;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

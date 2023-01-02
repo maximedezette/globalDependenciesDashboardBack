@@ -1,6 +1,6 @@
-package com.globaldashboard.domain.port.secondary;
+package com.globaldashboard.dependencies.domain.port.secondary;
 
-import com.globaldashboard.domain.Project;
+import com.globaldashboard.dependencies.domain.Project;
 
 import java.util.Set;
 

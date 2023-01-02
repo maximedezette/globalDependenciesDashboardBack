@@ -1,6 +1,6 @@
-package com.globaldashboard.domain.port.primary;
+package com.globaldashboard.dependencies.domain.port.primary;
 
-import com.globaldashboard.domain.Pom;
+import com.globaldashboard.dependencies.domain.Pom;
 import org.w3c.dom.Document;
 
 public interface DependenciesFromPom {

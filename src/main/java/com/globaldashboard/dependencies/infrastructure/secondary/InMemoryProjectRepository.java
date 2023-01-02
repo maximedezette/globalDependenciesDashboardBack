@@ -1,8 +1,8 @@
-package com.globaldashboard.infrastructure.secondary;
+package com.globaldashboard.dependencies.infrastructure.secondary;
 
 
-import com.globaldashboard.domain.Project;
-import com.globaldashboard.domain.port.secondary.ProjectRepository;
+import com.globaldashboard.dependencies.domain.Project;
+import com.globaldashboard.dependencies.domain.port.secondary.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

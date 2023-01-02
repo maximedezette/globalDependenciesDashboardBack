@@ -1,8 +1,8 @@
-package com.globaldashboard.infrastructure.secondary;
+package com.globaldashboard.dependencies.infrastructure.secondary;
 
-import com.globaldashboard.domain.Dependency;
-import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.SemanticVersion;
+import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.Pom;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

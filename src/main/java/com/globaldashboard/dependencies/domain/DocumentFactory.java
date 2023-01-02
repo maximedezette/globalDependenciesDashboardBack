@@ -1,4 +1,4 @@
-package com.globaldashboard.domain;
+package com.globaldashboard.dependencies.domain;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;

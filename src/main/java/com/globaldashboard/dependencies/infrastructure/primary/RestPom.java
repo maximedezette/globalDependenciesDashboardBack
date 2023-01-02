@@ -1,7 +1,7 @@
-package com.globaldashboard.infrastructure.primary;
+package com.globaldashboard.dependencies.infrastructure.primary;
 
-import com.globaldashboard.domain.Dependency;
-import com.globaldashboard.domain.Pom;
+import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.Pom;
 
 import java.util.Collection;
 

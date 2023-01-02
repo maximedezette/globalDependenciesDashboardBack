@@ -1,7 +1,7 @@
-package com.globaldashboard.infrastructure.secondary;
+package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.globaldashboard.domain.Project;
+import com.globaldashboard.dependencies.domain.Project;
 
 import javax.persistence.*;
 
