@@ -1,18 +1,15 @@
-package com.globaldashboard.infrastructure.primary;
+package com.globaldashboard.dependencies.infrastructure.primary;
 
-import com.globaldashboard.application.ProjectService;
-import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.Project;
-import com.globaldashboard.domain.port.secondary.PomHttpRetriever;
+import com.globaldashboard.dependencies.application.ProjectService;
+import com.globaldashboard.dependencies.domain.Pom;
+import com.globaldashboard.dependencies.domain.Project;
+import com.globaldashboard.dependencies.domain.port.secondary.PomHttpRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 

@@ -1,4 +1,4 @@
-package com.globaldashboard.domain;
+package com.globaldashboard.dependencies.domain;
 
 import java.util.Collection;
 

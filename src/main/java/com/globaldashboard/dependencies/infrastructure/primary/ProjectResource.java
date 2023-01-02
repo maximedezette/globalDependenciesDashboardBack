@@ -1,6 +1,6 @@
-package com.globaldashboard.infrastructure.primary;
+package com.globaldashboard.dependencies.infrastructure.primary;
 
-import com.globaldashboard.application.ProjectService;
+import com.globaldashboard.dependencies.application.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.globaldashboard.infrastructure.secondary;
+package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

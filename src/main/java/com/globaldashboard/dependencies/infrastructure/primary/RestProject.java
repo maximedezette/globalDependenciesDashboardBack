@@ -1,6 +1,6 @@
-package com.globaldashboard.infrastructure.primary;
+package com.globaldashboard.dependencies.infrastructure.primary;
 
-import com.globaldashboard.domain.Project;
+import com.globaldashboard.dependencies.domain.Project;
 
 public record RestProject(String name, String pomURL) {
 

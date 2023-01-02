@@ -1,7 +1,8 @@
 package com.globaldashboard.infrastructure.secondary;
 
-import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.SemanticVersion;
+import com.globaldashboard.dependencies.domain.Pom;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.dependencies.infrastructure.secondary.PomFactory;
 import com.globaldashboard.fixture.DocumentPomFixtures;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

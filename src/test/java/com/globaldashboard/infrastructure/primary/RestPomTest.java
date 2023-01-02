@@ -1,8 +1,9 @@
 package com.globaldashboard.infrastructure.primary;
 
-import com.globaldashboard.domain.Dependency;
-import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.SemanticVersion;
+import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.Pom;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.dependencies.infrastructure.primary.RestPom;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

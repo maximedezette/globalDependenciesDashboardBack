@@ -1,8 +1,8 @@
-package com.globaldashboard.infrastructure.secondary;
+package com.globaldashboard.dependencies.infrastructure.secondary;
 
-import com.globaldashboard.domain.Pom;
-import com.globaldashboard.domain.port.secondary.PomHttpRetriever;
-import com.globaldashboard.infrastructure.primary.exception.InvalidPomException;
+import com.globaldashboard.dependencies.domain.port.secondary.PomHttpRetriever;
+import com.globaldashboard.dependencies.domain.Pom;
+import com.globaldashboard.dependencies.infrastructure.primary.exception.InvalidPomException;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -11,8 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Set;
 import java.util.stream.Collectors;
