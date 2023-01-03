@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PomService implements DependenciesFromPom {
@@ -19,6 +20,6 @@ public class PomService implements DependenciesFromPom {
 
     @Override
     public Pom parseXMLPOM(Document pomXML) {
-        return this.pomFactory.getPomFrom(List.of(pomXML));
+        return this.pomFactory.getPomFrom(Map.of("", pomXML));
     }
 }

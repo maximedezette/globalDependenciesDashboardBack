@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class PomFactory {
 
-    public Pom getPomFrom(List<Document> pomXMLs) {
+    public Pom getPomFrom(Map<String, Document> pomXMLs) {
 
         String projectVersion = "";
         String projectName = "";
@@ -23,8 +23,9 @@ public class PomFactory {
         String java = "";
         List<Dependency> dependencies = new ArrayList<>();
 
-        for (Document pomXML : pomXMLs) {
-            Element documentElement = pomXML.getDocumentElement();
+        for (Map.Entry<String, Document> entry : pomXMLs.entrySet()) {
+            Document value = entry.getValue();
+            Element documentElement = value.getDocumentElement();
             Node versionNode = documentElement.getElementsByTagName("version").item(1);
             Node nameNode = documentElement.getElementsByTagName("name").item(0);
             Node descriptionNode = documentElement.getElementsByTagName("description").item(0);
@@ -43,18 +44,31 @@ public class PomFactory {
                 java = javaVersionNode.getTextContent();
             }
 
-            Map<String, String> properties = getProperties(documentElement);
+            Map<String, String> properties = getProperties(documentElement, pomXMLs);
             dependencies.addAll(getDependencies(documentElement, projectName, properties));
-        }
 
+        }
 
         return new Pom(SemanticVersion.from(projectVersion), projectName, description, java, dependencies);
     }
 
-    private Map<String, String> getProperties(Element documentElement) {
+    private Map<String, String> getProperties(Element documentElement, Map<String, Document> pomXMLs) {
         Map<String, String> properties = new HashMap<>();
+
+        Node parentNode = documentElement.getElementsByTagName("parent").item(0);
+        if (parentNode != null) {
+            for (int i = 0; i < parentNode.getChildNodes().getLength(); i++) {
+                Node childNode = parentNode.getChildNodes().item(i);
+                if (childNode.getNodeName().equals("groupId")) {
+                    Document parent = pomXMLs.get(childNode.getTextContent());
+                    if(parent != null) {
+                        properties.putAll(getProperties(parent.getDocumentElement(), pomXMLs));
+                    }
+                }
+            }
+        }
         Node propertiesRootNode = documentElement.getElementsByTagName("properties").item(0);
-        if(propertiesRootNode != null ) {
+        if (propertiesRootNode != null) {
             NodeList propertyNodes = propertiesRootNode.getChildNodes();
             int propertiesLength = propertyNodes.getLength();
             for (int i = 0; i < propertiesLength; i++) {

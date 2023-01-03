@@ -1,7 +1,7 @@
 package com.globaldashboard.dependencies.domain;
 
-import java.util.Collection;
+import java.util.List;
 
-public record Pom(SemanticVersion projectVersion, String projectName, String description, String java, Collection<Dependency> dependencies) {
+public record Pom(SemanticVersion projectVersion, String projectName, String description, String java, List<Dependency> dependencies) {
 
 }

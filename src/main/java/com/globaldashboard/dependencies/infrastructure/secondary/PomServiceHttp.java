@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public class PomServiceHttp implements PomHttpRetriever {
             throw new InvalidPomException(e);
         }
 
-        return this.pomFactory.getPomFrom(List.of(pomXML));
+        return this.pomFactory.getPomFrom(Map.of("", pomXML));
     }
 
     @Override
