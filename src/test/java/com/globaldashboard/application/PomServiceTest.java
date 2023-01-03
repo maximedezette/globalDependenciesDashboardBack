@@ -1,7 +1,7 @@
 package com.globaldashboard.application;
 
 import com.globaldashboard.dependencies.application.PomService;
-import com.globaldashboard.dependencies.domain.Pom;
+import com.globaldashboard.dependencies.domain.ProjectInformation;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -32,14 +32,14 @@ public class PomServiceTest {
 
     @Test
     void shouldExtractProjectNameFromXML() {
-        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
+        ProjectInformation pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.projectName()).isEqualTo("aperotech");
     }
 
     @Test
     void shouldExtractProjectVersionFromXML()  {
-        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
+        ProjectInformation pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
         SemanticVersion expectedSemanticVersion = SemanticVersion.from("0.0.1-SNAPSHOT");
 
         SemanticVersion version = pom.projectVersion();
@@ -49,21 +49,21 @@ public class PomServiceTest {
 
     @Test
     void shouldExtractDescriptionFromXML()  {
-        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
+        ProjectInformation pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.description()).isEqualTo("Demo project for Apero Tech");
     }
 
     @Test
     void shouldExtractJavaVersionFromXML()  {
-        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
+        ProjectInformation pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.java()).isEqualTo("17");
     }
 
     @Test
     void shouldExtractDependenciesFromXML()  {
-        Pom pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
+        ProjectInformation pom = pomXMLToDomainPomService.parseXMLPOM(pomXML);
 
         assertThat(pom.dependencies()).hasSize(18);
     }

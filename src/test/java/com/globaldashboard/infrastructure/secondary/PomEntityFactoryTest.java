@@ -1,7 +1,7 @@
 package com.globaldashboard.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
-import com.globaldashboard.dependencies.domain.Pom;
+import com.globaldashboard.dependencies.domain.ProjectInformation;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.secondary.PomFactory;
 import com.globaldashboard.fixture.DocumentPomFixtures;
@@ -33,14 +33,14 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldExtractProjectNameFromXML() {
-        Pom pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         assertThat(pom.projectName()).isEqualTo("aperotech");
     }
 
     @Test
     void shouldExtractProjectVersionFromXML() {
-        Pom pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
         SemanticVersion expectedVersion = SemanticVersion.from("0.0.1-SNAPSHOT");
 
         SemanticVersion version = pom.projectVersion();
@@ -50,28 +50,28 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldExtractDescriptionFromXML() {
-        Pom pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         assertThat(pom.description()).isEqualTo("Demo project for Apero Tech");
     }
 
     @Test
     void shouldExtractJavaVersionFromXML() {
-        Pom pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         assertThat(pom.java()).isEqualTo("17");
     }
 
     @Test
     void shouldExtractDependenciesFromXML() {
-        Pom pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         assertThat(pom.dependencies()).hasSize(18);
     }
 
     @Test
     void shouldReplaceVariableVersionInDependencies() {
-        Pom pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         Dependency dependency = new Dependency("aperotech", "org.junit", "junit-bom", "5.9.0");
 
@@ -80,7 +80,7 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldGetDependenciesFromMultiplePom() {
-        Pom pom = pomFactory.getPomFrom(
+        ProjectInformation pom = pomFactory.getPomFrom(
                 Map.of(
                         "com.global-dependenceies-dashboard-back", pomXML,
                         "", childPomXML
@@ -91,7 +91,7 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldGetPropertiesFromParentPom() {
-        Pom pom = pomFactory.getPomFrom(Map.of(
+        ProjectInformation pom = pomFactory.getPomFrom(Map.of(
                 "com.global-dependenceies-dashboard-back", pomXML,
                 "", childPomXML
         ));
