@@ -15,37 +15,61 @@ import java.util.Map;
 
 public class PomFactory {
 
-    public Pom getPomFrom(Document pomXML) {
+    public Pom getPomFrom(List<Document> pomXMLs) {
 
-        Element documentElement = pomXML.getDocumentElement();
-        String projectVersion = documentElement.getElementsByTagName("version").item(1).getTextContent();
-        String projectName = documentElement.getElementsByTagName("name").item(0).getTextContent();
-        String description = documentElement.getElementsByTagName("description").item(0).getTextContent();
-        String java = documentElement.getElementsByTagName("java.version").item(0).getTextContent();
+        String projectVersion = "";
+        String projectName = "";
+        String description = "";
+        String java = "";
+        List<Dependency> dependencies = new ArrayList<>();
 
-        Map<String, String> properties = getProperties(documentElement);
-        List<Dependency> dependencies = getDependencies(documentElement, projectName, properties);
+        for (Document pomXML : pomXMLs) {
+            Element documentElement = pomXML.getDocumentElement();
+            Node versionNode = documentElement.getElementsByTagName("version").item(1);
+            Node nameNode = documentElement.getElementsByTagName("name").item(0);
+            Node descriptionNode = documentElement.getElementsByTagName("description").item(0);
+            Node javaVersionNode = documentElement.getElementsByTagName("java.version").item(0);
+
+            if (versionNode != null) {
+                projectVersion = versionNode.getTextContent();
+            }
+            if (nameNode != null) {
+                projectName = nameNode.getTextContent();
+            }
+            if (descriptionNode != null) {
+                description = descriptionNode.getTextContent();
+            }
+            if (javaVersionNode != null) {
+                java = javaVersionNode.getTextContent();
+            }
+
+            Map<String, String> properties = getProperties(documentElement);
+            dependencies.addAll(getDependencies(documentElement, projectName, properties));
+        }
 
 
         return new Pom(SemanticVersion.from(projectVersion), projectName, description, java, dependencies);
     }
 
-    private Map<String, String>  getProperties(Element documentElement) {
+    private Map<String, String> getProperties(Element documentElement) {
         Map<String, String> properties = new HashMap<>();
-        NodeList propertyNodes = documentElement.getElementsByTagName("properties").item(0).getChildNodes();
-        int propertiesLength = propertyNodes.getLength();
-        for (int i = 0; i < propertiesLength; i++) {
-            Node node = propertyNodes.item(i);
-            if(node != null) {
-                String propertyName = node.getNodeName();
-                String propertyContent = node.getTextContent();
-                properties.put(propertyName, propertyContent);
+        Node propertiesRootNode = documentElement.getElementsByTagName("properties").item(0);
+        if(propertiesRootNode != null ) {
+            NodeList propertyNodes = propertiesRootNode.getChildNodes();
+            int propertiesLength = propertyNodes.getLength();
+            for (int i = 0; i < propertiesLength; i++) {
+                Node node = propertyNodes.item(i);
+                if (node != null) {
+                    String propertyName = node.getNodeName();
+                    String propertyContent = node.getTextContent();
+                    properties.put(propertyName, propertyContent);
+                }
             }
         }
         return properties;
     }
 
-    private List<Dependency> getDependencies(Element documentElement, String projectName, Map<String,String> properties) {
+    private List<Dependency> getDependencies(Element documentElement, String projectName, Map<String, String> properties) {
         NodeList dependencyNodes = documentElement.getElementsByTagName("dependency");
         int numberOfDependencies = dependencyNodes.getLength();
 
@@ -72,12 +96,12 @@ public class PomFactory {
                 case "version" -> version = getVersion(childNode.getTextContent(), properties);
             }
         }
-        return new Dependency(projectName,groupId, artifactId, version);
+        return new Dependency(projectName, groupId, artifactId, version);
     }
 
     private String getVersion(String version, Map<String, String> properties) {
         String propertyKey = version.replaceAll("\\$|\\{|\\}", "");
-        if(properties.get(propertyKey) != null) {
+        if (properties.get(propertyKey) != null) {
             return properties.get(propertyKey);
         }
         return version;

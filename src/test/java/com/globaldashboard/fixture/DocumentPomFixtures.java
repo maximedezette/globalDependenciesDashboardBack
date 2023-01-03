@@ -11,8 +11,17 @@ import java.io.IOException;
 
 public class DocumentPomFixtures {
 
-    public static Document getDocument() throws ParserConfigurationException, IOException, SAXException {
+    public static Document getPom() throws ParserConfigurationException, IOException, SAXException {
         File pomFile = new File("src/test/java/com/globaldashboard/fixture/pom.xml");
+        FileInputStream fileInputStream = new FileInputStream(pomFile);
+
+        return  DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder()
+                .parse(fileInputStream);
+    }
+
+    public static Document getChildPom() throws ParserConfigurationException, IOException, SAXException {
+        File pomFile = new File("src/test/java/com/globaldashboard/fixture/child-pom.xml");
         FileInputStream fileInputStream = new FileInputStream(pomFile);
 
         return  DocumentBuilderFactory.newInstance()
