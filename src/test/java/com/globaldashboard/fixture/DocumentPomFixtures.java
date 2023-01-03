@@ -12,7 +12,7 @@ import java.io.IOException;
 public class DocumentPomFixtures {
 
     public static Document getDocument() throws ParserConfigurationException, IOException, SAXException {
-        File pomFile = new File("pom.xml");
+        File pomFile = new File("src/test/java/com/globaldashboard/fixture/pom.xml");
         FileInputStream fileInputStream = new FileInputStream(pomFile);
 
         return  DocumentBuilderFactory.newInstance()

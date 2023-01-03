@@ -1,5 +1,6 @@
 package com.globaldashboard.infrastructure.secondary;
 
+import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.Pom;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.secondary.PomFactory;
@@ -31,7 +32,7 @@ class PomEntityFactoryTest {
     void shouldExtractProjectNameFromXML() {
         Pom pom = pomFactory.getPomFrom(pomXML);
 
-        assertThat(pom.projectName()).isEqualTo("globaldashboard");
+        assertThat(pom.projectName()).isEqualTo("aperotech");
     }
 
     @Test
@@ -63,6 +64,15 @@ class PomEntityFactoryTest {
         Pom pom = pomFactory.getPomFrom(pomXML);
 
         assertThat(pom.dependencies()).hasSize(18);
+    }
+
+    @Test
+    void shouldReplaceVariableVersionInDependencies() {
+        Pom pom = pomFactory.getPomFrom(pomXML);
+
+        Dependency dependency = new Dependency("aperotech", "org.junit", "junit-bom", "5.9.0");
+
+        assertThat(pom.dependencies()).contains(dependency);
     }
 
 }
