@@ -72,8 +72,7 @@ class PomEntityFactoryTest {
     @Test
     void shouldReplaceVariableVersionInDependencies() {
         ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
-
-        Dependency dependency = new Dependency("aperotech", "org.junit", "junit-bom", "5.9.0");
+        Dependency dependency = new Dependency("org.junit", "junit-bom", "5.9.0");
 
         assertThat(pom.dependencies()).contains(dependency);
     }
@@ -95,10 +94,9 @@ class PomEntityFactoryTest {
                 "com.global-dependenceies-dashboard-back", pomXML,
                 "", childPomXML
         ));
+        Dependency expectedDependency = new Dependency("org.junit", "junit-bom", "5.9.0");
 
-        Dependency childJunit = pom.dependencies().get(18);
-
-        assertThat(childJunit.version()).isEqualTo("5.9.0");
+        assertThat(pom.dependencies()).contains(expectedDependency);
     }
 
 }

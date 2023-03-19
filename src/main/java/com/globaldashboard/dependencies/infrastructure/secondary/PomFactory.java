@@ -61,7 +61,7 @@ public class PomFactory {
                 Node childNode = parentNode.getChildNodes().item(i);
                 if (childNode.getNodeName().equals("groupId")) {
                     Document parent = pomXMLs.get(childNode.getTextContent());
-                    if(parent != null) {
+                    if (parent != null) {
                         properties.putAll(getProperties(parent.getDocumentElement(), pomXMLs));
                     }
                 }
@@ -90,13 +90,13 @@ public class PomFactory {
         List<Dependency> dependencies = new ArrayList<>();
         for (int i = 0; i < numberOfDependencies; i++) {
             Node currentDependencyNode = dependencyNodes.item(i);
-            Dependency dependency = getDependency(projectName, currentDependencyNode, properties);
+            Dependency dependency = getDependency(currentDependencyNode, properties);
             dependencies.add(dependency);
         }
         return dependencies;
     }
 
-    private Dependency getDependency(String projectName, Node currentDependencyNode, Map<String, String> properties) {
+    private Dependency getDependency(Node currentDependencyNode, Map<String, String> properties) {
         NodeList childNodes = currentDependencyNode.getChildNodes();
         int numberOfDependencyChilds = childNodes.getLength();
         String groupId = "";
@@ -110,7 +110,7 @@ public class PomFactory {
                 case "version" -> version = getVersion(childNode.getTextContent(), properties);
             }
         }
-        return new Dependency(projectName, groupId, artifactId, version);
+        return new Dependency(groupId, artifactId, version);
     }
 
     private String getVersion(String version, Map<String, String> properties) {

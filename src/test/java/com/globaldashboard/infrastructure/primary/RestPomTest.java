@@ -27,6 +27,6 @@ class RestPomTest {
     }
 
     private List<Dependency> getDependencies() {
-        return List.of(new Dependency("dependencyProject", "goupId", "artifactId", "1.0.0"));
+        return List.of(new Dependency("goupId", "artifactId", "1.0.0"));
     }
 }
