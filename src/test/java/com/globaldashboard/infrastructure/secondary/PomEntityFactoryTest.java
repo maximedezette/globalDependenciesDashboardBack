@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -72,7 +73,7 @@ class PomEntityFactoryTest {
     @Test
     void shouldReplaceVariableVersionInDependencies() {
         ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
-        Dependency dependency = new Dependency("org.junit", "junit-bom", "5.9.0");
+        Dependency dependency = new Dependency("org.junit", "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
 
         assertThat(pom.dependencies()).contains(dependency);
     }
@@ -94,7 +95,7 @@ class PomEntityFactoryTest {
                 "com.global-dependenceies-dashboard-back", pomXML,
                 "", childPomXML
         ));
-        Dependency expectedDependency = new Dependency("org.junit", "junit-bom", "5.9.0");
+        Dependency expectedDependency = new Dependency("org.junit", "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
 
         assertThat(pom.dependencies()).contains(expectedDependency);
     }

@@ -39,4 +39,24 @@ class SemanticVersionTest {
         assertThat(readableVersion).isEqualTo("1.2.3");
     }
 
+    @Test
+    void shouldBeComparableToOtherSemanticVersions() {
+        SemanticVersion semanticVersion = SemanticVersion.from("1.2.3");
+
+        assertThat(semanticVersion.compareTo(SemanticVersion.from("0.0.0"))).isGreaterThan(0);
+        assertThat(semanticVersion.compareTo(SemanticVersion.from("1.1.0"))).isGreaterThan(0);
+        assertThat(semanticVersion.compareTo(SemanticVersion.from("1.2.2"))).isGreaterThan(0);
+
+        assertThat(semanticVersion.compareTo(SemanticVersion.from("1.2.3"))).isEqualTo(0);
+
+        assertThat(semanticVersion.compareTo(SemanticVersion.from("2.0.0"))).isLessThan(0);
+        assertThat(semanticVersion.compareTo(SemanticVersion.from("1.3.0"))).isLessThan(0);
+        assertThat(semanticVersion.compareTo(SemanticVersion.from("1.2.4"))).isLessThan(0);
+    }
+
+    @Test
+    void shouldBuildDefaultVersion() {
+        assertThat(SemanticVersion.from("")).isNotNull();
+    }
+
 }
