@@ -8,10 +8,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PomFactory {
 
@@ -110,7 +107,13 @@ public class PomFactory {
                 case "version" -> version = getVersion(childNode.getTextContent(), properties);
             }
         }
-        return new Dependency(groupId, artifactId, version);
+
+        if (version != null && version.length() > 0) {
+            return new Dependency(groupId, artifactId, Optional.of(SemanticVersion.from(version)));
+        }
+        
+        return new Dependency(groupId, artifactId, Optional.empty());
+
     }
 
     private String getVersion(String version, Map<String, String> properties) {
