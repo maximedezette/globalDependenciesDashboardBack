@@ -19,4 +19,15 @@ class RestObjectiveTest {
         assertThat(objective.version()).isEqualTo(SemanticVersion.from("2.6.0"));
     }
 
+    @Test
+    void shouldBeConvertableFromDomain() {
+        Objective objective = new Objective("org.springframework.boot", "spring-boot-starter-parent", SemanticVersion.from("2.6.0"));
+
+        RestObjective restObjective = RestObjective.from(objective);
+
+        assertThat(restObjective.groupId()).isEqualTo("org.springframework.boot");
+        assertThat(restObjective.artifactId()).isEqualTo("spring-boot-starter-parent");
+        assertThat(restObjective.version()).isEqualTo("2.6.0");
+    }
+
 }

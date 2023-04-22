@@ -2,6 +2,7 @@ package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.globaldashboard.dependencies.domain.Objective;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
 
 import javax.persistence.*;
 
@@ -63,5 +64,9 @@ public class ObjectiveEntity {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Objective toDomain() {
+        return new Objective(this.groupId, this.artifactId, SemanticVersion.from(this.version));
     }
 }
