@@ -1,6 +1,6 @@
 package com.globaldashboard.dependencies.domain;
 
-public record Objective(Dependency dependency, SemanticVersion version) {
+public record Objective(String groupId, String artifactId, SemanticVersion version) {
     public boolean isAchievedBy(Dependency dependency) {
         SemanticVersion dependencyVersion = dependency
                 .version()
