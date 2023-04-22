@@ -17,10 +17,25 @@ class ObjectiveEntityTest {
         expectedObjectiveEntity.setVersion("2.6.1");
 
         ObjectiveEntity objectiveEntity = ObjectiveEntity.from(objective);
-        
+
         assertThat(objectiveEntity)
                 .usingRecursiveComparison()
                 .isEqualTo(expectedObjectiveEntity);
+    }
+
+    @Test
+    void shouldBeConvertableToDomain() {
+        ObjectiveEntity objectiveEntity = new ObjectiveEntity();
+        objectiveEntity.setGroupId("org.springframework.boot");
+        objectiveEntity.setArtifactId("spring-boot-starter-parent");
+        objectiveEntity.setVersion("2.6.1");
+        Objective expectedObjective = new Objective("org.springframework.boot", "spring-boot-starter-parent", SemanticVersion.from("2.6.1"));
+
+        Objective objective = objectiveEntity.toDomain();
+
+        assertThat(objective)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedObjective);
     }
 
 }

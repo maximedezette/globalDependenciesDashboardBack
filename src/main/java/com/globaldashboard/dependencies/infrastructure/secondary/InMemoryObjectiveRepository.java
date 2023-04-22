@@ -4,6 +4,8 @@ import com.globaldashboard.dependencies.domain.Objective;
 import com.globaldashboard.dependencies.domain.port.secondary.ObjectiveRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+
 @Repository
 public class InMemoryObjectiveRepository implements ObjectiveRepository {
 
@@ -16,5 +18,13 @@ public class InMemoryObjectiveRepository implements ObjectiveRepository {
     @Override
     public void save(Objective objective) {
         this.objectiveSpringRepository.save(ObjectiveEntity.from(objective));
+    }
+
+    @Override
+    public Collection<Objective> getAllObjectives() {
+        return this.objectiveSpringRepository.findAll()
+                .stream()
+                .map(ObjectiveEntity::toDomain)
+                .toList();
     }
 }

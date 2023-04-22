@@ -1,5 +1,10 @@
 package cucumber.steps;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.globaldashboard.dependencies.domain.Objective;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.dependencies.infrastructure.primary.RestObjective;
 import com.globaldashboard.dependencies.infrastructure.secondary.ObjectiveEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ObjectiveSpringRepository;
 import io.cucumber.datatable.DataTable;
@@ -11,6 +16,7 @@ import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,9 +25,12 @@ public class ObjectiveStepDefs {
 
     private final ObjectiveSpringRepository objectiveSpringRepository;
 
+    private ObjectMapper objectMapper;
+
     @Autowired
     public ObjectiveStepDefs(ObjectiveSpringRepository objectiveSpringRepository) {
         this.objectiveSpringRepository = objectiveSpringRepository;
+        this.objectMapper = new ObjectMapper();
     }
 
     @Given("There are no objectives stored in the database")
@@ -63,5 +72,43 @@ public class ObjectiveStepDefs {
         assertThat(objectiveEntity)
                 .usingRecursiveComparison()
                 .isEqualTo(expectedObjectiveEntity);
+    }
+
+    @Given("There are objectives stored in the database")
+    public void thereAreObjectivesStoredInTheDatabase() {
+        ObjectiveEntity objectiveEntity = new ObjectiveEntity();
+        objectiveEntity.setGroupId("org.springframework.boot");
+        objectiveEntity.setArtifactId("spring-boot-starter-parent");
+        objectiveEntity.setVersion("2.6.1");
+
+        ObjectiveEntity secondObjectiveEntity = new ObjectiveEntity();
+        secondObjectiveEntity.setGroupId("io.cucumber");
+        secondObjectiveEntity.setArtifactId("cucumber-bom");
+        secondObjectiveEntity.setVersion("7.6.0");
+
+        this.objectiveSpringRepository.save(objectiveEntity);
+        this.objectiveSpringRepository.save(secondObjectiveEntity);
+    }
+
+    @When("I retrieve all objectives")
+    public void iRetrieveAllObjectives() {
+        RequestSpecification request = RestAssured.given();
+        HttpStepDefs.response = request.get("/objectives");
+    }
+
+    @Then("I should receive all objectives")
+    public void iShouldReceiveAllObjectives() throws JsonProcessingException {
+        List<RestObjective> restObjectives = getRestObjectives();
+        String expectedObjectives = this.objectMapper.writeValueAsString(restObjectives);
+
+        assertThat(HttpStepDefs.response.body().asString())
+                .isEqualTo(expectedObjectives);
+    }
+
+    private List<RestObjective> getRestObjectives() {
+        Objective firstObjective = new Objective("io.cucumber", "cucumber-bom", SemanticVersion.from("7.6.0"));
+        Objective secondObjective = new Objective("org.springframework.boot", "spring-boot-starter-parent", SemanticVersion.from("2.6.1"));
+
+        return List.of(RestObjective.from(firstObjective), RestObjective.from(secondObjective));
     }
 }
