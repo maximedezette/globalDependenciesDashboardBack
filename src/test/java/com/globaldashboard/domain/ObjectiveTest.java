@@ -42,7 +42,6 @@ public class ObjectiveTest {
     }
 
     private Objective getObjective() {
-        Dependency dependency = new Dependency("groupid", "artifactId", Optional.of(SemanticVersion.from("1.0.0")));
-        return new Objective(dependency, SemanticVersion.from("1.0.0"));
+        return new Objective("groupid", "artifactId", SemanticVersion.from("1.0.0"));
     }
 }
