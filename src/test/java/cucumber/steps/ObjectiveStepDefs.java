@@ -8,6 +8,8 @@ import com.globaldashboard.dependencies.infrastructure.primary.RestObjective;
 import com.globaldashboard.dependencies.infrastructure.secondary.ObjectiveEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ObjectiveSpringRepository;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -33,8 +35,8 @@ public class ObjectiveStepDefs {
         this.objectMapper = new ObjectMapper();
     }
 
-    @Given("There are no objectives stored in the database")
-    public void thereAreNoObjectivesStoredInTheDatabase() {
+    @Before
+    public void cleanObjectives() {
         this.objectiveSpringRepository.deleteAll();
     }
 
@@ -71,6 +73,7 @@ public class ObjectiveStepDefs {
         assertThat(objectiveEntity).isNotNull();
         assertThat(objectiveEntity)
                 .usingRecursiveComparison()
+                .ignoringFields("id")
                 .isEqualTo(expectedObjectiveEntity);
     }
 
@@ -110,5 +113,20 @@ public class ObjectiveStepDefs {
         Objective secondObjective = new Objective("org.springframework.boot", "spring-boot-starter-parent", SemanticVersion.from("2.6.1"));
 
         return List.of(RestObjective.from(firstObjective), RestObjective.from(secondObjective));
+    }
+
+    @And("There are objectives stored in the database with these characteristics")
+    public void thereAreObjectivesStoredInTheDatabaseWithTheseCharacteristics(DataTable dataTable) {
+        List<Map<String, String>> valueMap = dataTable.entries();
+
+        valueMap.forEach(entry -> {
+            ObjectiveEntity objectiveEntity = new ObjectiveEntity();
+            objectiveEntity.setGroupId(entry.get("groupId"));
+            objectiveEntity.setArtifactId(entry.get("artifactId"));
+            objectiveEntity.setVersion(entry.get("version"));
+
+            this.objectiveSpringRepository.save(objectiveEntity);
+        });
+
     }
 }

@@ -32,6 +32,26 @@ public class ObjectiveTest {
     }
 
     @Test
+    void shouldNotBeAchievedWhenArtifactIdDoesntMatch() {
+        Objective objective = getObjective();
+        Dependency dependency = new Dependency("groupid", "differentArtifactId", Optional.of(SemanticVersion.from("2.0.0")));
+
+        boolean achieved = objective.isAchievedBy(dependency);
+
+        assertThat(achieved).isFalse();
+    }
+
+    @Test
+    void shouldNotBeAchievedWhenGroupIdDoesntMatch() {
+        Objective objective = getObjective();
+        Dependency dependency = new Dependency("differentGroupId", "artifactId", Optional.of(SemanticVersion.from("2.0.0")));
+
+        boolean achieved = objective.isAchievedBy(dependency);
+
+        assertThat(achieved).isFalse();
+    }
+
+    @Test
     void shouldNotBeAchievedWhenDependencyAtLowerVersion() {
         Dependency dependency = new Dependency("groupid", "artifactId", Optional.of(SemanticVersion.from("0.0.0")));
         Objective objective = getObjective();
