@@ -1,4 +1,8 @@
 # globalDependenciesDashboardBack
 
+![Code coverage](https://codecov.io/gh/maximedezette/globalDependenciesDashboardBack/branch/main/graph/badge.svg)
 
-This is a a REST API providing useful informations to monitor your java projects maven dependencies.
+## Description
+
+This is a REST API providing useful informations to monitor your java projects maven dependencies.
+
