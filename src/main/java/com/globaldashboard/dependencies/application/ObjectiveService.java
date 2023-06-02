@@ -22,4 +22,8 @@ public class ObjectiveService {
     public Collection<Objective> getAllObjectives() {
         return this.objectiveRepository.getAllObjectives();
     }
+
+    public void delete(String groupId, String artifactId) {
+        this.objectiveRepository.delete(groupId, artifactId);
+    }
 }
