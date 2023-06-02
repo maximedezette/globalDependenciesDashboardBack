@@ -31,4 +31,9 @@ public class ObjectiveResource {
                 .collect(Collectors.toSet());
     }
 
+    @DeleteMapping
+    public void deleteObjective(@RequestParam("group-id") String groupId, @RequestParam("artifact-id") String artifactId) {
+        this.objectiveService.delete(groupId, artifactId);
+    }
+
 }

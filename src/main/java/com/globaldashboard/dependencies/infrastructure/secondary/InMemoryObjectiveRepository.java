@@ -27,4 +27,10 @@ public class InMemoryObjectiveRepository implements ObjectiveRepository {
                 .map(ObjectiveEntity::toDomain)
                 .toList();
     }
+
+    @Override
+    public void delete(String groupId, String artifactId) {
+        ObjectiveEntity objectiveEntity = this.objectiveSpringRepository.findByGroupIdAndArtifactId(groupId, artifactId);
+        this.objectiveSpringRepository.delete(objectiveEntity);
+    }
 }

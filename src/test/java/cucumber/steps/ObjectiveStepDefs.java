@@ -18,6 +18,7 @@ import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -128,5 +129,51 @@ public class ObjectiveStepDefs {
             this.objectiveSpringRepository.save(objectiveEntity);
         });
 
+    }
+
+    @Given("The following objectives are already set")
+    public void theFollowingObjectivesAreAlreadySet(DataTable dataTable) {
+        List<Map<String, String>> entries = dataTable.asMaps();
+
+        entries.forEach(entry -> {
+            ObjectiveEntity objectiveEntity = getObjectiveEntityFrom(entry);
+            this.objectiveSpringRepository.save(objectiveEntity);
+        });
+    }
+
+
+    @When("I delete the objective with these information")
+    public void iDeleteTheObjectiveWithTheseInformation(DataTable dataTable) {
+        List<Map<String, String>> entries = dataTable.asMaps();
+        RequestSpecification request = RestAssured.given();
+
+        entries.forEach(entry -> HttpStepDefs.response = request
+                .header("Content-Type", "application/json")
+                .delete("/objectives?group-id=" + entry.get("groupId") + "&artifact-id=" + entry.get("artifactId")));
+    }
+
+    @Then("I should retrieve the following objectives")
+    public void iShouldRetrieveTheFollowingObjectives(DataTable dataTable) throws JsonProcessingException {
+        List<Map<String, String>> entries = dataTable.asMaps();
+        List<RestObjective> restObjectives = new ArrayList<>();
+        entries.forEach(entry -> restObjectives.add(getRestObjectiveFrom(entry)));
+        RequestSpecification request = RestAssured.given();
+        HttpStepDefs.response = request.get("/objectives");
+        String expectedObjectives = this.objectMapper.writeValueAsString(restObjectives);
+
+        assertThat(HttpStepDefs.response.body().asString())
+                .isEqualTo(expectedObjectives);
+    }
+
+    private ObjectiveEntity getObjectiveEntityFrom(Map<String, String> entry) {
+        ObjectiveEntity objectiveEntity = new ObjectiveEntity();
+        objectiveEntity.setGroupId(entry.get("groupId"));
+        objectiveEntity.setArtifactId(entry.get("artifactId"));
+        objectiveEntity.setVersion(entry.get("version"));
+        return objectiveEntity;
+    }
+
+    private RestObjective getRestObjectiveFrom(Map<String, String> entry) {
+        return new RestObjective(entry.get("groupId"), entry.get("artifactId"), entry.get("version"));
     }
 }

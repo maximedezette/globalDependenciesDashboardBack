@@ -9,4 +9,6 @@ public interface ObjectiveRepository {
     void save(Objective objective);
 
     Collection<Objective> getAllObjectives();
+
+    void delete(String groupId, String artifactId);
 }
