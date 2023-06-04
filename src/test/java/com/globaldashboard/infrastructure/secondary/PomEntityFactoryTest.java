@@ -1,6 +1,7 @@
 package com.globaldashboard.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.ProjectInformation;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.secondary.PomFactory;
@@ -73,7 +74,7 @@ class PomEntityFactoryTest {
     @Test
     void shouldReplaceVariableVersionInDependencies() {
         ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
-        Dependency dependency = new Dependency("org.junit", "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
+        Dependency dependency = new Dependency(new GroupId("org.junit"), "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
 
         assertThat(pom.dependencies()).contains(dependency);
     }
@@ -95,7 +96,7 @@ class PomEntityFactoryTest {
                 "com.global-dependenceies-dashboard-back", pomXML,
                 "", childPomXML
         ));
-        Dependency expectedDependency = new Dependency("org.junit", "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
+        Dependency expectedDependency = new Dependency(new GroupId("org.junit"), "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
 
         assertThat(pom.dependencies()).contains(expectedDependency);
     }

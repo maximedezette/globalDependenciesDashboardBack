@@ -2,6 +2,6 @@ package com.globaldashboard.dependencies.domain;
 
 import java.util.Optional;
 
-public record Dependency(String groupId, String artifactId, Optional<SemanticVersion> version) {
+public record Dependency(GroupId groupId, String artifactId, Optional<SemanticVersion> version) {
 
 }

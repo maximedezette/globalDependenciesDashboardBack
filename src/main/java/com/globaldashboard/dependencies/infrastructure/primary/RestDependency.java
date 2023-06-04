@@ -10,6 +10,6 @@ public record RestDependency(String groupId, String artifactId, String version) 
             version = dependency.version().get().toString();
         }
         
-        return new RestDependency(dependency.groupId(), dependency.artifactId(), version);
+        return new RestDependency(dependency.groupId().label(), dependency.artifactId(), version);
     }
 }

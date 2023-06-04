@@ -2,6 +2,7 @@ package cucumber.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Objective;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.primary.RestObjective;
@@ -110,8 +111,8 @@ public class ObjectiveStepDefs {
     }
 
     private List<RestObjective> getRestObjectives() {
-        Objective firstObjective = new Objective("io.cucumber", "cucumber-bom", SemanticVersion.from("7.6.0"));
-        Objective secondObjective = new Objective("org.springframework.boot", "spring-boot-starter-parent", SemanticVersion.from("2.6.1"));
+        Objective firstObjective = new Objective(new GroupId("io.cucumber"), "cucumber-bom", SemanticVersion.from("7.6.0"));
+        Objective secondObjective = new Objective(new GroupId("org.springframework.boot"), "spring-boot-starter-parent", SemanticVersion.from("2.6.1"));
 
         return List.of(RestObjective.from(firstObjective), RestObjective.from(secondObjective));
     }

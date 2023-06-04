@@ -1,20 +1,22 @@
 package com.globaldashboard.domain;
 
 import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Objective;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.fixture.GroupIdFixture;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ObjectiveTest {
+class ObjectiveTest {
 
     @Test
     void shouldBeAchievedWhenDependencyAtSameVersion() {
         Objective objective = getObjective();
-        Dependency dependency = new Dependency("groupid", "artifactId", Optional.of(SemanticVersion.from("1.0.0")));
+        Dependency dependency = getDependency();
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -24,7 +26,7 @@ public class ObjectiveTest {
     @Test
     void shouldBeAchievedWhenDependencyAtHigherVersion() {
         Objective objective = getObjective();
-        Dependency dependency = new Dependency("groupid", "artifactId", Optional.of(SemanticVersion.from("2.0.0")));
+        Dependency dependency = getDependency();
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -34,7 +36,7 @@ public class ObjectiveTest {
     @Test
     void shouldNotBeAchievedWhenArtifactIdDoesntMatch() {
         Objective objective = getObjective();
-        Dependency dependency = new Dependency("groupid", "differentArtifactId", Optional.of(SemanticVersion.from("2.0.0")));
+        Dependency dependency = new Dependency(GroupIdFixture.get(), "differentArtifactId", Optional.of(SemanticVersion.from("2.0.0")));
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -44,7 +46,7 @@ public class ObjectiveTest {
     @Test
     void shouldNotBeAchievedWhenGroupIdDoesntMatch() {
         Objective objective = getObjective();
-        Dependency dependency = new Dependency("differentGroupId", "artifactId", Optional.of(SemanticVersion.from("2.0.0")));
+        Dependency dependency = new Dependency(new GroupId("differentGroupId"), "artifactId", Optional.of(SemanticVersion.from("2.0.0")));
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -53,7 +55,7 @@ public class ObjectiveTest {
 
     @Test
     void shouldNotBeAchievedWhenDependencyAtLowerVersion() {
-        Dependency dependency = new Dependency("groupid", "artifactId", Optional.of(SemanticVersion.from("0.0.0")));
+        Dependency dependency = new Dependency(GroupIdFixture.get(), "artifactId", Optional.of(SemanticVersion.from("0.0.0")));
         Objective objective = getObjective();
 
         boolean achieved = objective.isAchievedBy(dependency);
@@ -62,6 +64,10 @@ public class ObjectiveTest {
     }
 
     private Objective getObjective() {
-        return new Objective("groupid", "artifactId", SemanticVersion.from("1.0.0"));
+        return new Objective(GroupIdFixture.get(), "artifactId", SemanticVersion.from("1.0.0"));
+    }
+
+    private Dependency getDependency() {
+        return new Dependency(GroupIdFixture.get(), "artifactId", Optional.of(SemanticVersion.from("2.0.0")));
     }
 }

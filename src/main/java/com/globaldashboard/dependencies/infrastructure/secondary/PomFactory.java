@@ -1,6 +1,7 @@
 package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.ProjectInformation;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import org.w3c.dom.Document;
@@ -96,23 +97,23 @@ public class PomFactory {
     private Dependency getDependency(Node currentDependencyNode, Map<String, String> properties) {
         NodeList childNodes = currentDependencyNode.getChildNodes();
         int numberOfDependencyChilds = childNodes.getLength();
-        String groupId = "";
+        String groupIdLabel = "";
         String artifactId = "";
         String version = "";
         for (int j = 0; j < numberOfDependencyChilds; j++) {
             Node childNode = childNodes.item(j);
             switch (childNode.getNodeName()) {
-                case "groupId" -> groupId = childNode.getTextContent();
+                case "groupId" -> groupIdLabel = childNode.getTextContent();
                 case "artifactId" -> artifactId = childNode.getTextContent();
                 case "version" -> version = getVersion(childNode.getTextContent(), properties);
             }
         }
 
         if (version != null && version.length() > 0) {
-            return new Dependency(groupId, artifactId, Optional.of(SemanticVersion.from(version)));
+            return new Dependency(new GroupId(groupIdLabel), artifactId, Optional.of(SemanticVersion.from(version)));
         }
         
-        return new Dependency(groupId, artifactId, Optional.empty());
+        return new Dependency(new GroupId(groupIdLabel), artifactId, Optional.empty());
 
     }
 
