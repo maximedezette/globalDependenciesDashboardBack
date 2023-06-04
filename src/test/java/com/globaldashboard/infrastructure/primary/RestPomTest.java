@@ -1,6 +1,7 @@
 package com.globaldashboard.infrastructure.primary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.ProjectInformation;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.primary.RestDependency;
@@ -33,6 +34,6 @@ class RestPomTest {
     }
 
     private List<Dependency> getDependencies() {
-        return List.of(new Dependency("goupId", "artifactId", Optional.of(SemanticVersion.from("1.0.0"))));
+        return List.of(new Dependency(new GroupId("goupId"), "artifactId", Optional.of(SemanticVersion.from("1.0.0"))));
     }
 }

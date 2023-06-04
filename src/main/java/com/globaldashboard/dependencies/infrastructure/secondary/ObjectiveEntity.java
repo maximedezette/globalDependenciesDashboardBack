@@ -1,6 +1,7 @@
 package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Objective;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 
@@ -27,7 +28,7 @@ public class ObjectiveEntity {
     public static ObjectiveEntity from(Objective objective) {
         ObjectiveEntity objectiveEntity = new ObjectiveEntity();
 
-        objectiveEntity.setGroupId(objective.groupId());
+        objectiveEntity.setGroupId(objective.groupId().label());
         objectiveEntity.setVersion(objective.version().toString());
         objectiveEntity.setArtifactId(objective.artifactId());
 
@@ -67,6 +68,6 @@ public class ObjectiveEntity {
     }
 
     public Objective toDomain() {
-        return new Objective(this.groupId, this.artifactId, SemanticVersion.from(this.version));
+        return new Objective(new GroupId(this.groupId), this.artifactId, SemanticVersion.from(this.version));
     }
 }
