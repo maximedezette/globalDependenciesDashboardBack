@@ -2,7 +2,6 @@ package com.globaldashboard.dependencies.infrastructure.primary;
 
 import com.globaldashboard.dependencies.application.ProjectService;
 import com.globaldashboard.dependencies.domain.ProjectInformation;
-import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.port.secondary.PomHttpRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +29,7 @@ public class ProjectInformationResource {
     @GetMapping
     public Set<RestProjectInformation> getAll() {
         Set<String> pomURLs = this.projectService.getAllProjects().stream()
-                .map(Project::pomURL)
+                .map(project -> project.pomURL().url())
                 .collect(Collectors.toSet());
 
         Set<ProjectInformation> poms = this.pomHttpRetriever.getFromURLs(pomURLs);
@@ -42,7 +41,7 @@ public class ProjectInformationResource {
 
     @GetMapping("/project/{name}")
     public RestProjectInformation get(@PathVariable String name) {
-        String pomURL = this.projectService.getProjectByName(name).pomURL();
+        String pomURL = this.projectService.getProjectByName(name).pomURL().url();
         ProjectInformation pom = this.pomHttpRetriever.getFromURL(pomURL);
 
         return RestProjectInformation.from(pom);

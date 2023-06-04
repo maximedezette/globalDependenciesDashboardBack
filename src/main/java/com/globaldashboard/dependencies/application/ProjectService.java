@@ -49,7 +49,7 @@ public class ProjectService {
 
     public Map<Objective, Boolean> getProjectStatus(String name) {
         Project project = this.projectRepository.findByName(name);
-        ProjectInformation projectInformation = this.pomHttpRetriever.getFromURL(project.pomURL());
+        ProjectInformation projectInformation = this.pomHttpRetriever.getFromURL(project.pomURL().url());
         Collection<Objective> objectives = this.objectiveService.getAllObjectives();
         List<Dependency> dependencies = projectInformation.dependencies();
 

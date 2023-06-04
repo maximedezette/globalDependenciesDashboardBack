@@ -15,7 +15,7 @@ class ProjectEntityTest {
         projectEntity.setName("projectName");
         projectEntity.setPomURL(ProjectFixtures.DEFAULT_POM_URL);
 
-        Project project = new Project("projectName", ProjectFixtures.DEFAULT_POM_URL);
+        Project project = ProjectFixtures.get();
 
         assertThat(projectEntity.toDomain())
                 .usingRecursiveComparison()
@@ -27,7 +27,7 @@ class ProjectEntityTest {
         ProjectEntity expectedProjectEntity = new ProjectEntity();
         expectedProjectEntity.setName("projectName");
         expectedProjectEntity.setPomURL(ProjectFixtures.DEFAULT_POM_URL);
-        Project project = new Project("projectName", ProjectFixtures.DEFAULT_POM_URL);
+        Project project = ProjectFixtures.get();
 
         ProjectEntity projectEntity = ProjectEntity.from(project);
 

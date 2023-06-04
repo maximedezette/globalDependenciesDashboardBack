@@ -11,7 +11,7 @@ class RestProjectTest {
 
     @Test
     void shouldConvertFromDomainProject() {
-        Project project = new Project("projectName", ProjectFixtures.DEFAULT_POM_URL);
+        Project project = ProjectFixtures.get();
         RestProject expectedRestProject = new RestProject("projectName", ProjectFixtures.DEFAULT_POM_URL);
 
         RestProject restProject = RestProject.from(project);
@@ -23,7 +23,7 @@ class RestProjectTest {
 
     @Test
     void shouldConvertTpDomainProject() {
-        Project expectedProject = new Project("projectName", ProjectFixtures.DEFAULT_POM_URL);
+        Project expectedProject = ProjectFixtures.get();
         RestProject restProject = new RestProject("projectName", ProjectFixtures.DEFAULT_POM_URL);
 
         Project project = restProject.toDomain();
