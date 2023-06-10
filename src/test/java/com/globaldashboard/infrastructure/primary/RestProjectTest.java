@@ -1,8 +1,8 @@
 package com.globaldashboard.infrastructure.primary;
 
-import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.dependencies.infrastructure.primary.RestProject;
-import com.globaldashboard.fixture.ProjectFixtures;
+import com.globaldashboard.dependencies.domain.ProjectDescription;
+import com.globaldashboard.dependencies.infrastructure.primary.RestProjectDescription;
+import com.globaldashboard.fixture.ProjectDescriptionFixtures;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,10 +11,10 @@ class RestProjectTest {
 
     @Test
     void shouldConvertFromDomainProject() {
-        Project project = ProjectFixtures.get();
-        RestProject expectedRestProject = new RestProject("projectName", ProjectFixtures.DEFAULT_POM_URL);
+        ProjectDescription project = new ProjectDescription("projectName", ProjectDescriptionFixtures.DEFAULT_POM_URL);
+        RestProjectDescription expectedRestProject = new RestProjectDescription("projectName", ProjectDescriptionFixtures.DEFAULT_POM_URL);
 
-        RestProject restProject = RestProject.from(project);
+        RestProjectDescription restProject = RestProjectDescription.from(project);
 
         assertThat(restProject)
                 .usingRecursiveComparison()
@@ -23,10 +23,10 @@ class RestProjectTest {
 
     @Test
     void shouldConvertTpDomainProject() {
-        Project expectedProject = ProjectFixtures.get();
-        RestProject restProject = new RestProject("projectName", ProjectFixtures.DEFAULT_POM_URL);
+        ProjectDescription expectedProject = new ProjectDescription("projectName", ProjectDescriptionFixtures.DEFAULT_POM_URL);
+        RestProjectDescription restProject = new RestProjectDescription("projectName", ProjectDescriptionFixtures.DEFAULT_POM_URL);
 
-        Project project = restProject.toDomain();
+        ProjectDescription project = restProject.toDomain();
 
         assertThat(project)
                 .usingRecursiveComparison()

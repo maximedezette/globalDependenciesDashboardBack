@@ -1,8 +1,7 @@
 package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.domain.PomUrl;
+import com.globaldashboard.dependencies.domain.ProjectDescription;
 
 import javax.persistence.*;
 
@@ -20,14 +19,14 @@ public class ProjectEntity {
     @Column(name = "pom_url")
     private String pomURL;
 
-    public Project toDomain() {
-        return new Project(this.name, new PomUrl(this.pomURL));
+    public ProjectDescription toDomain() {
+        return new ProjectDescription(this.name, this.pomURL);
     }
 
-    public static ProjectEntity from(Project project) {
+    public static ProjectEntity from(ProjectDescription project) {
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setName(project.name());
-        projectEntity.setPomURL(project.pomURL().url());
+        projectEntity.setPomURL(project.pomURL());
 
         return projectEntity;
     }

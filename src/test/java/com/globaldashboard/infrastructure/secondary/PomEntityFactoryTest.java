@@ -2,7 +2,7 @@ package com.globaldashboard.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.GroupId;
-import com.globaldashboard.dependencies.domain.ProjectInformation;
+import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.secondary.PomFactory;
 import com.globaldashboard.fixture.DocumentPomFixtures;
@@ -35,14 +35,14 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldExtractProjectNameFromXML() {
-        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        Project pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         assertThat(pom.projectName()).isEqualTo("aperotech");
     }
 
     @Test
     void shouldExtractProjectVersionFromXML() {
-        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        Project pom = pomFactory.getPomFrom(Map.of("", pomXML));
         SemanticVersion expectedVersion = SemanticVersion.from("0.0.1-SNAPSHOT");
 
         SemanticVersion version = pom.projectVersion();
@@ -52,28 +52,28 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldExtractDescriptionFromXML() {
-        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        Project pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         assertThat(pom.description()).isEqualTo("Demo project for Apero Tech");
     }
 
     @Test
     void shouldExtractJavaVersionFromXML() {
-        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        Project pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         assertThat(pom.java()).isEqualTo("17");
     }
 
     @Test
     void shouldExtractDependenciesFromXML() {
-        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        Project pom = pomFactory.getPomFrom(Map.of("", pomXML));
 
         assertThat(pom.dependencies()).hasSize(18);
     }
 
     @Test
     void shouldReplaceVariableVersionInDependencies() {
-        ProjectInformation pom = pomFactory.getPomFrom(Map.of("", pomXML));
+        Project pom = pomFactory.getPomFrom(Map.of("", pomXML));
         Dependency dependency = new Dependency(new GroupId("org.junit"), "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
 
         assertThat(pom.dependencies()).contains(dependency);
@@ -81,7 +81,7 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldGetDependenciesFromMultiplePom() {
-        ProjectInformation pom = pomFactory.getPomFrom(
+        Project pom = pomFactory.getPomFrom(
                 Map.of(
                         "com.global-dependenceies-dashboard-back", pomXML,
                         "", childPomXML
@@ -92,7 +92,7 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldGetPropertiesFromParentPom() {
-        ProjectInformation pom = pomFactory.getPomFrom(Map.of(
+        Project pom = pomFactory.getPomFrom(Map.of(
                 "com.global-dependenceies-dashboard-back", pomXML,
                 "", childPomXML
         ));

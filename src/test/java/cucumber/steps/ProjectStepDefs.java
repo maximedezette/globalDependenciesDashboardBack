@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectSpringRepository;
-import com.globaldashboard.fixture.ProjectFixtures;
+import com.globaldashboard.fixture.ProjectDescriptionFixtures;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -43,7 +43,7 @@ public class ProjectStepDefs {
         RequestSpecification request = RestAssured.given();
 
         HttpStepDefs.response = request
-                .get("/projects");
+                .get("/projects/simplified");
     }
 
     @And("All the projects should be displayed")
@@ -61,7 +61,7 @@ public class ProjectStepDefs {
     private List<ProjectEntity> getProjects() {
         ProjectEntity aperoTech = new ProjectEntity();
         aperoTech.setName("AperoTech");
-        aperoTech.setPomURL(ProjectFixtures.DEFAULT_POM_URL);
+        aperoTech.setPomURL(ProjectDescriptionFixtures.DEFAULT_POM_URL);
 
         ProjectEntity kataApi = new ProjectEntity();
         kataApi.setName("KataApi");
@@ -94,7 +94,7 @@ public class ProjectStepDefs {
 
         assertThat(project).isNotNull();
         assertThat(project.getName()).isEqualTo("AperoTech");
-        assertThat(project.getPomURL()).isEqualTo(ProjectFixtures.DEFAULT_POM_URL);
+        assertThat(project.getPomURL()).isEqualTo(ProjectDescriptionFixtures.DEFAULT_POM_URL);
     }
 
     @Given("There is a project named {string} stored in the database")
@@ -102,7 +102,7 @@ public class ProjectStepDefs {
         if (this.projectRepository.findByName(name) == null) {
             ProjectEntity project = new ProjectEntity();
             project.setName(name);
-            project.setPomURL(ProjectFixtures.DEFAULT_POM_URL);
+            project.setPomURL(ProjectDescriptionFixtures.DEFAULT_POM_URL);
 
             this.projectRepository.save(project);
         }

@@ -14,14 +14,14 @@ public class PomStepDefs {
         RequestSpecification request = RestAssured.given();
 
         HttpStepDefs.response = request
-                .get("/pom/project/"+ name);
+                .get("/projects/"+ name);
     }
     @When("A user asks for all the dependencies")
     public void aUserAsksForAllTheDependencies() {
         RequestSpecification request = RestAssured.given();
 
         HttpStepDefs.response = request
-                .get("/pom");
+                .get("/projects");
     }
 
     @And("The project dependencies should be displayed")

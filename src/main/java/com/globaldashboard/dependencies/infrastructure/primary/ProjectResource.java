@@ -1,10 +1,14 @@
 package com.globaldashboard.dependencies.infrastructure.primary;
 
 import com.globaldashboard.dependencies.application.ProjectService;
+import com.globaldashboard.dependencies.domain.Project;
+import com.globaldashboard.dependencies.domain.ProjectDescription;
+import com.globaldashboard.dependencies.domain.port.secondary.PomHttpRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -12,17 +16,19 @@ import java.util.stream.Collectors;
 public class ProjectResource {
 
     private final ProjectService projectService;
+    private final PomHttpRetriever pomHttpRetriever;
 
     @Autowired
-    public ProjectResource(ProjectService projectService) {
+    public ProjectResource(ProjectService projectService, PomHttpRetriever pomHttpRetriever) {
         this.projectService = projectService;
+        this.pomHttpRetriever = pomHttpRetriever;
     }
 
-    @GetMapping
-    public Collection<RestProject> getAllProjects() {
+    @GetMapping("simplified")
+    public Collection<RestProjectDescription> getAllProjects() {
         return this.projectService.getAllProjects()
                 .stream()
-                .map(RestProject::from)
+                .map(RestProjectDescription::from)
                 .collect(Collectors.toSet());
     }
 
@@ -35,8 +41,29 @@ public class ProjectResource {
                 .collect(Collectors.toSet());
     }
 
+    @GetMapping
+    public Set<RestProject> getAll() {
+        Set<String> pomURLs = this.projectService.getAllProjects().stream()
+                .map(ProjectDescription::pomURL)
+                .collect(Collectors.toSet());
+
+        Set<Project> poms = this.pomHttpRetriever.getFromURLs(pomURLs);
+
+        return poms.stream()
+                .map(RestProject::from)
+                .collect(Collectors.toSet());
+    }
+
+    @GetMapping("/{name}")
+    public RestProject get(@PathVariable String name) {
+        String pomURL = this.projectService.getProjectByName(name).pomURL();
+        Project pom = this.pomHttpRetriever.getFromURL(pomURL);
+
+        return RestProject.from(pom);
+    }
+
     @PostMapping
-    public void saveProject(@RequestBody RestProject restProject) {
+    public void saveProject(@RequestBody RestProjectDescription restProject) {
         this.projectService.save(restProject.toDomain());
     }
 
