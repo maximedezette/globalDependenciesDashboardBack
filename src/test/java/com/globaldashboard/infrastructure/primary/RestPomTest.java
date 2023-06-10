@@ -2,10 +2,10 @@ package com.globaldashboard.infrastructure.primary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.GroupId;
-import com.globaldashboard.dependencies.domain.ProjectInformation;
+import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.primary.RestDependency;
-import com.globaldashboard.dependencies.infrastructure.primary.RestProjectInformation;
+import com.globaldashboard.dependencies.infrastructure.primary.RestProject;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,9 +17,9 @@ class RestPomTest {
 
     @Test
     void shouldConvertFromDomainProject() {
-        ProjectInformation pom = new ProjectInformation(SemanticVersion.from("1.2.3-SNAPSHOT"), "name", "description", "17", getDependencies());
+        Project pom = new Project(SemanticVersion.from("1.2.3-SNAPSHOT"), "name", "description", "17", getDependencies());
 
-        RestProjectInformation restPom = RestProjectInformation.from(pom);
+        RestProject restPom = RestProject.from(pom);
 
         assertThat(restPom).isNotNull();
         assertThat(restPom.version()).isEqualTo("1.2.3-SNAPSHOT");

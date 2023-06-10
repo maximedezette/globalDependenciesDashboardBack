@@ -1,7 +1,7 @@
 package com.globaldashboard.dependencies.infrastructure.secondary;
 
 
-import com.globaldashboard.dependencies.domain.Project;
+import com.globaldashboard.dependencies.domain.ProjectDescription;
 import com.globaldashboard.dependencies.domain.port.secondary.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,7 +20,7 @@ public class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public Project findByName(String name) {
+    public ProjectDescription findByName(String name) {
         return this.projectSpringRepository.findByName(name).toDomain();
     }
 
@@ -30,7 +30,7 @@ public class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public Set<Project> findAll() {
+    public Set<ProjectDescription> findAll() {
         return this.projectSpringRepository.findAll()
                 .stream()
                 .map(ProjectEntity::toDomain)
@@ -38,7 +38,7 @@ public class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public void save(Project project) {
+    public void save(ProjectDescription project) {
         this.projectSpringRepository.save(ProjectEntity.from(project));
     }
 }

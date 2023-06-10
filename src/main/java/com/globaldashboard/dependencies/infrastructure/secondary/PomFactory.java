@@ -2,7 +2,7 @@ package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.GroupId;
-import com.globaldashboard.dependencies.domain.ProjectInformation;
+import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -13,7 +13,7 @@ import java.util.*;
 
 public class PomFactory {
 
-    public ProjectInformation getPomFrom(Map<String, Document> pomXMLs) {
+    public Project getPomFrom(Map<String, Document> pomXMLs) {
 
         String projectVersion = "";
         String projectName = "";
@@ -47,7 +47,7 @@ public class PomFactory {
 
         }
 
-        return new ProjectInformation(SemanticVersion.from(projectVersion), projectName, description, java, dependencies);
+        return new Project(SemanticVersion.from(projectVersion), projectName, description, java, dependencies);
     }
 
     private Map<String, String> getProperties(Element documentElement, Map<String, Document> pomXMLs) {
