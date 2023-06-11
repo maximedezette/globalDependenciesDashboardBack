@@ -18,6 +18,7 @@ import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ObjectiveStepDefs {
 
     private final ObjectiveSpringRepository objectiveSpringRepository;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public ObjectiveStepDefs(ObjectiveSpringRepository objectiveSpringRepository) {
@@ -79,42 +80,10 @@ public class ObjectiveStepDefs {
                 .isEqualTo(expectedObjectiveEntity);
     }
 
-    @Given("There are objectives stored in the database")
-    public void thereAreObjectivesStoredInTheDatabase() {
-        ObjectiveEntity objectiveEntity = new ObjectiveEntity();
-        objectiveEntity.setGroupId("org.springframework.boot");
-        objectiveEntity.setArtifactId("spring-boot-starter-parent");
-        objectiveEntity.setVersion("2.6.1");
-
-        ObjectiveEntity secondObjectiveEntity = new ObjectiveEntity();
-        secondObjectiveEntity.setGroupId("io.cucumber");
-        secondObjectiveEntity.setArtifactId("cucumber-bom");
-        secondObjectiveEntity.setVersion("7.6.0");
-
-        this.objectiveSpringRepository.save(objectiveEntity);
-        this.objectiveSpringRepository.save(secondObjectiveEntity);
-    }
-
     @When("I retrieve all objectives")
     public void iRetrieveAllObjectives() {
         RequestSpecification request = RestAssured.given();
         HttpStepDefs.response = request.get("/objectives");
-    }
-
-    @Then("I should receive all objectives")
-    public void iShouldReceiveAllObjectives() throws JsonProcessingException {
-        List<RestObjective> restObjectives = getRestObjectives();
-        String expectedObjectives = this.objectMapper.writeValueAsString(restObjectives);
-
-        assertThat(HttpStepDefs.response.body().asString())
-                .isEqualTo(expectedObjectives);
-    }
-
-    private List<RestObjective> getRestObjectives() {
-        Objective firstObjective = new Objective(new GroupId("io.cucumber"), "cucumber-bom", SemanticVersion.from("7.6.0"));
-        Objective secondObjective = new Objective(new GroupId("org.springframework.boot"), "spring-boot-starter-parent", SemanticVersion.from("2.6.1"));
-
-        return List.of(RestObjective.from(firstObjective), RestObjective.from(secondObjective));
     }
 
     @And("There are objectives stored in the database with these characteristics")
@@ -141,7 +110,6 @@ public class ObjectiveStepDefs {
             this.objectiveSpringRepository.save(objectiveEntity);
         });
     }
-
 
     @When("I delete the objective with these information")
     public void iDeleteTheObjectiveWithTheseInformation(DataTable dataTable) {
