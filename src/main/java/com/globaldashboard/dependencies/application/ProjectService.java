@@ -34,10 +34,6 @@ public class ProjectService {
         return this.projectRepository.findAll();
     }
 
-    public void save(ProjectDescription project) {
-        this.projectRepository.save(project);
-    }
-
     @Transactional
     public void deleteByName(String projectName) {
         this.projectRepository.deleteByName(projectName);
@@ -62,5 +58,9 @@ public class ProjectService {
     private Function<Objective, Boolean> isAchievedBy(List<Dependency> dependencies) {
         return objective -> dependencies.stream()
                 .anyMatch(objective::isAchievedBy);
+    }
+
+    public void save(Project pom, ProjectDescription projectDescription) {
+        this.projectRepository.save(pom, projectDescription);
     }
 }

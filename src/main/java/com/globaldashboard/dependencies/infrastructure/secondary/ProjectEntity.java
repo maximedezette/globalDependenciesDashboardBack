@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.globaldashboard.dependencies.domain.ProjectDescription;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "project")
@@ -18,6 +19,16 @@ public class ProjectEntity {
 
     @Column(name = "pom_url")
     private String pomURL;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "project_dependency",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "dependency_id")
+    )
+    private Set<DependencyEntity> dependencies;
 
     public ProjectDescription toDomain() {
         return new ProjectDescription(this.name, this.pomURL);
@@ -53,5 +64,13 @@ public class ProjectEntity {
 
     public void setPomURL(String pomURL) {
         this.pomURL = pomURL;
+    }
+
+    public Set<DependencyEntity> getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(Set<DependencyEntity> dependencies) {
+        this.dependencies = dependencies;
     }
 }

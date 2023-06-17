@@ -2,6 +2,7 @@ package cucumber.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.globaldashboard.dependencies.infrastructure.primary.RestProjectDescription;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectSpringRepository;
 import com.globaldashboard.fixture.ProjectDescriptionFixtures;
@@ -48,9 +49,16 @@ public class ProjectStepDefs {
 
     @And("All the projects should be displayed")
     public void allTheProjectsShouldBeDisplayed() throws JsonProcessingException {
-        String expectedProjects = this.objectMapper.writeValueAsString(getProjects());
+        String expectedProjects = this.objectMapper.writeValueAsString(getProjectsDescription());
         assertThat(HttpStepDefs.response.body().asString())
                 .isEqualTo(expectedProjects);
+    }
+    private List<RestProjectDescription> getProjectsDescription() {
+        return getProjects()
+                .stream()
+                .map(ProjectEntity::toDomain)
+                .map(RestProjectDescription::from)
+                .toList();
     }
 
     @Given("There are projects stored in the database")
@@ -69,6 +77,7 @@ public class ProjectStepDefs {
 
         return List.of(aperoTech, kataApi);
     }
+
 
     @When("A user create a project with these information")
     public void aUserCreateAProjectWithTheseInformation(DataTable dataTable) {
