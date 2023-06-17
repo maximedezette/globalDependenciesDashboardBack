@@ -1,6 +1,7 @@
 package com.globaldashboard.dependencies.infrastructure.secondary;
 
 
+import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.ProjectDescription;
 import com.globaldashboard.dependencies.domain.port.secondary.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,19 @@ public class InMemoryProjectRepository implements ProjectRepository {
                 .map(ProjectEntity::toDomain)
                 .collect(Collectors.toSet());
     }
-
     @Override
-    public void save(ProjectDescription project) {
-        this.projectSpringRepository.save(ProjectEntity.from(project));
+    public void save(Project project, ProjectDescription projectDescription) {
+        Set<DependencyEntity> dependencies = project.dependencies()
+                .stream()
+                .map(dependency -> new DependencyEntity().from(dependency))
+                .collect(Collectors.toSet());
+
+
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setName(projectDescription.name());
+        projectEntity.setPomURL(projectDescription.pomURL());
+        projectEntity.setDependencies(dependencies);
+
+        this.projectSpringRepository.save(projectEntity);
     }
 }

@@ -64,7 +64,9 @@ public class ProjectResource {
 
     @PostMapping
     public void saveProject(@RequestBody RestProjectDescription restProject) {
-        this.projectService.save(restProject.toDomain());
+        ProjectDescription projectDescription = restProject.toDomain();
+        Project pom = this.pomHttpRetriever.getFromURL(projectDescription.pomURL());
+        this.projectService.save(pom, projectDescription);
     }
 
     @DeleteMapping("/{projectName}")
