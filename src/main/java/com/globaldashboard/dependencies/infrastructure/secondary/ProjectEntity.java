@@ -20,6 +20,13 @@ public class ProjectEntity {
     @Column(name = "pom_url")
     private String pomURL;
 
+    @Column(name = "version")
+    private String version;
+    @Column(name = "java_version")
+    private String javaVersion;
+    @Column(name = "description")
+    private String description;
+
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -72,5 +79,29 @@ public class ProjectEntity {
 
     public void setDependencies(Set<DependencyEntity> dependencies) {
         this.dependencies = dependencies;
+    }
+
+    public String getJavaVersion() {
+        return javaVersion;
+    }
+
+    public void setJavaVersion(String javaVersion) {
+        this.javaVersion = javaVersion;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
