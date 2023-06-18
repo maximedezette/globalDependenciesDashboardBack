@@ -1,4 +1,4 @@
-package com.globaldashboard.domain;
+package com.globaldashboard.dependencies.domain;
 
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.GroupId;

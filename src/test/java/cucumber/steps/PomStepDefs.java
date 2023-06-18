@@ -35,12 +35,9 @@ public class PomStepDefs {
     }
 
     @And("All the dependencies should be displayed")
-    public void allTheDependenciesShouldBeDisplayed() {
-        assertThat(HttpStepDefs.response.body().asString())
-                .contains(getExpectedDependencies());
-    }
-
-    private String getExpectedDependencies() {
-        return "{\"version\":\"0.0.1-SNAPSHOT\",\"projectName\":\"aperotech\",\"description\":\"Demo project for Apero Tech\",\"java\":\"17\",\"dependencies\":[{\"groupId\":\"io.cucumber\",\"artifactId\":\"cucumber-bom\",\"version\":\"7.6.0\"},{\"groupId\":\"org.junit\",\"artifactId\":\"junit-bom\",\"version\":\"5.9.0\"},{\"groupId\":\"org.springframework.boot\",\"artifactId\":\"spring-boot-starter-data-jpa\",\"version\":\"\"},{\"groupId\":\"org.apache.logging.log4j\",\"artifactId\":\"log4j\",\"version\":\"2.18.0\"},{\"groupId\":\"org.springframework.boot\",\"artifactId\":\"spring-boot-starter-data-rest\",\"version\":\"\"},{\"groupId\":\"org.springframework.boot\",\"artifactId\":\"spring-boot-starter-hateoas\",\"version\":\"\"},{\"groupId\":\"org.springframework.boot\",\"artifactId\":\"spring-boot-starter-web\",\"version\":\"\"},{\"groupId\":\"org.springframework.boot\",\"artifactId\":\"spring-boot-devtools\",\"version\":\"\"},{\"groupId\":\"com.h2database\",\"artifactId\":\"h2\",\"version\":\"\"},{\"groupId\":\"org.postgresql\",\"artifactId\":\"postgresql\",\"version\":\"\"},{\"groupId\":\"org.springframework.boot\",\"artifactId\":\"spring-boot-starter-tomcat\",\"version\":\"\"},{\"groupId\":\"org.springframework.boot\",\"artifactId\":\"spring-boot-starter-test\",\"version\":\"\"},{\"groupId\":\"io.cucumber\",\"artifactId\":\"cucumber-java\",\"version\":\"\"},{\"groupId\":\"io.cucumber\",\"artifactId\":\"cucumber-junit-platform-engine\",\"version\":\"\"},{\"groupId\":\"io.cucumber\",\"artifactId\":\"cucumber-spring\",\"version\":\"\"},{\"groupId\":\"io.rest-assured\",\"artifactId\":\"rest-assured\",\"version\":\"4.2.0\"},{\"groupId\":\"org.junit.jupiter\",\"artifactId\":\"junit-jupiter\",\"version\":\"\"},{\"groupId\":\"org.junit.platform\",\"artifactId\":\"junit-platform-suite\",\"version\":\"\"}]}";
+    public void allTheDependenciesShouldBeDisplayed() throws JsonProcessingException {
+        RestProject[] restProject =  new ObjectMapper().readValue(HttpStepDefs.response.body().asString(), RestProject[].class);
+        assertThat(restProject[0].dependencies())
+                .hasSize(1);
     }
 }

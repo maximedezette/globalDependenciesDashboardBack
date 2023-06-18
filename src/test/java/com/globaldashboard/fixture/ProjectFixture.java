@@ -7,8 +7,10 @@ import java.util.List;
 
 public class ProjectFixture {
 
+    public static String DEFAULT_POM_URL = "https://raw.githubusercontent.com/maximedezette/globalDependenciesDashboardBack/main/src/test/java/com/globaldashboard/fixture/pom.xml";
+
     public static Project aperoTech() {
-        return new Project(SemanticVersion.from("0.0.1-SNAPSHOT"), "AperoTech", "Demo project for Apero Tech", "17", List.of(DependencyFixture.getCucumber()), ProjectDescriptionFixtures.DEFAULT_POM_URL );
+        return new Project(SemanticVersion.from("0.0.1-SNAPSHOT"), "AperoTech", "Demo project for Apero Tech", "17", List.of(DependencyFixture.getCucumber()), ProjectFixture.DEFAULT_POM_URL );
     }
 
     public static Project kataApi() {

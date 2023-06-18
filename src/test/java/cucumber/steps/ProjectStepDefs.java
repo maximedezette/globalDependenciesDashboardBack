@@ -8,7 +8,6 @@ import com.globaldashboard.dependencies.infrastructure.primary.RestProjectDescri
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectSpringRepository;
 import com.globaldashboard.fixture.DependencyFixture;
-import com.globaldashboard.fixture.ProjectDescriptionFixtures;
 import com.globaldashboard.fixture.ProjectFixture;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
@@ -61,7 +60,7 @@ public class ProjectStepDefs {
     private List<RestProjectDescription> getProjectsDescription() {
         return getProjects()
                 .stream()
-                .map(ProjectEntity::toProjectDescriptionDomain)
+                .map(ProjectEntity::toDomain)
                 .map(RestProjectDescription::from)
                 .toList();
     }
@@ -102,13 +101,13 @@ public class ProjectStepDefs {
 
         assertThat(project).isNotNull();
         assertThat(project.getName()).isEqualTo("AperoTech");
-        assertThat(project.getPomURL()).isEqualTo(ProjectDescriptionFixtures.DEFAULT_POM_URL);
+        assertThat(project.getPomURL()).isEqualTo(ProjectFixture.DEFAULT_POM_URL);
     }
 
     @Given("There is a project named {string} stored in the database")
     public void thereIsAProjectNamedStoredInTheDatabase(String name) {
         if (this.projectRepository.findByName(name) == null) {
-            Project project = new Project(SemanticVersion.from("0.0.1-SNAPSHOT"), name, "Demo project for Apero Tech", "17", List.of(DependencyFixture.getCucumber()), ProjectDescriptionFixtures.DEFAULT_POM_URL );
+            Project project = new Project(SemanticVersion.from("0.0.1-SNAPSHOT"), name, "Demo project for Apero Tech", "17", List.of(DependencyFixture.getCucumber()), ProjectFixture.DEFAULT_POM_URL );
 
             this.projectRepository.save(ProjectEntity.from(project));
         }

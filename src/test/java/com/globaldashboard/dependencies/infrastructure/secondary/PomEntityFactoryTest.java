@@ -1,4 +1,4 @@
-package com.globaldashboard.infrastructure.secondary;
+package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.GroupId;
@@ -33,14 +33,7 @@ class PomEntityFactoryTest {
         this.pomFactory = new PomFactory();
         this.pomXML = DocumentPomFixtures.getPom();
         this.childPomXML = DocumentPomFixtures.getChildPom();
-        project = pomFactory.getPomFrom(Map.of("", pomXML), "");
-    }
-
-    @Test
-    void shouldExtractProjectNameFromXML() {
-        String projectName = project.projectName();
-
-        assertThat(projectName).isEqualTo("aperotech");
+        project = pomFactory.getPomFrom(Map.of("", pomXML), "", "");
     }
 
     @Test
@@ -80,7 +73,7 @@ class PomEntityFactoryTest {
                 Map.of(
                         "com.global-dependenceies-dashboard-back", pomXML,
                         "", childPomXML
-                ), "");
+                ), "", "");
 
         assertThat(project.dependencies()).hasSize(19);
     }
@@ -90,7 +83,7 @@ class PomEntityFactoryTest {
         Project pom = pomFactory.getPomFrom(Map.of(
                 "com.global-dependenceies-dashboard-back", pomXML,
                 "", childPomXML
-        ), "");
+        ), "", "");
         Dependency expectedDependency = new Dependency(new GroupId("org.junit"), "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
 
         assertThat(pom.dependencies()).contains(expectedDependency);

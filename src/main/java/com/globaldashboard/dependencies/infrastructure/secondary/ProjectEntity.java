@@ -3,7 +3,6 @@ package com.globaldashboard.dependencies.infrastructure.secondary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.dependencies.domain.ProjectDescription;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 
 import javax.persistence.*;
@@ -72,17 +71,6 @@ public class ProjectEntity {
                 dependencyList,
                 this.pomURL
         );
-    }
-    public ProjectDescription toProjectDescriptionDomain() {
-        return new ProjectDescription(this.name, this.pomURL);
-    }
-
-    public static ProjectEntity fromProjectDescription(ProjectDescription project) {
-        ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setName(project.name());
-        projectEntity.setPomURL(project.pomURL());
-
-        return projectEntity;
     }
 
     public long getId() {

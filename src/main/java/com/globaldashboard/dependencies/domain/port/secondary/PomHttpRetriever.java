@@ -6,7 +6,5 @@ import com.globaldashboard.dependencies.infrastructure.primary.exception.Invalid
 import java.util.Set;
 
 public interface PomHttpRetriever {
-    Project getFromURL(String url) throws InvalidPomException;
-
-    Set<Project> getFromURLs(Set<String> pomURLs);
+    Project getFromURL(String url, String name) throws InvalidPomException;
 }

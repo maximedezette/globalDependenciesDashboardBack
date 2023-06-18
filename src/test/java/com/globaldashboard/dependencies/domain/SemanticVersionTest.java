@@ -1,4 +1,4 @@
-package com.globaldashboard.domain;
+package com.globaldashboard.dependencies.domain;
 
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import org.junit.jupiter.api.Test;

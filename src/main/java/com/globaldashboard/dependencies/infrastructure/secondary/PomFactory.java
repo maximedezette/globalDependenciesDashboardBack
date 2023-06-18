@@ -13,10 +13,9 @@ import java.util.*;
 
 public class PomFactory {
 
-    public Project getPomFrom(Map<String, Document> pomXMLs, String pomURL) {
+    public Project getPomFrom(Map<String, Document> pomXMLs, String pomURL, String projectName) {
 
         String projectVersion = "";
-        String projectName = "";
         String description = "";
         String java = "";
         List<Dependency> dependencies = new ArrayList<>();
@@ -25,15 +24,11 @@ public class PomFactory {
             Document value = entry.getValue();
             Element documentElement = value.getDocumentElement();
             Node versionNode = documentElement.getElementsByTagName("version").item(1);
-            Node nameNode = documentElement.getElementsByTagName("name").item(0);
             Node descriptionNode = documentElement.getElementsByTagName("description").item(0);
             Node javaVersionNode = documentElement.getElementsByTagName("java.version").item(0);
 
             if (versionNode != null) {
                 projectVersion = versionNode.getTextContent();
-            }
-            if (nameNode != null) {
-                projectName = nameNode.getTextContent();
             }
             if (descriptionNode != null) {
                 description = descriptionNode.getTextContent();
@@ -43,7 +38,7 @@ public class PomFactory {
             }
 
             Map<String, String> properties = getProperties(documentElement, pomXMLs);
-            dependencies.addAll(getDependencies(documentElement, projectName, properties));
+            dependencies.addAll(getDependencies(documentElement, properties));
 
         }
 
@@ -81,7 +76,7 @@ public class PomFactory {
         return properties;
     }
 
-    private List<Dependency> getDependencies(Element documentElement, String projectName, Map<String, String> properties) {
+    private List<Dependency> getDependencies(Element documentElement, Map<String, String> properties) {
         NodeList dependencyNodes = documentElement.getElementsByTagName("dependency");
         int numberOfDependencies = dependencyNodes.getLength();
 

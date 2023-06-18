@@ -1,4 +1,4 @@
-package com.globaldashboard.infrastructure.primary;
+package com.globaldashboard.dependencies.infrastructure.primary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.GroupId;
@@ -13,20 +13,20 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RestPomTest {
+class RestProjectTest {
 
     @Test
     void shouldConvertFromDomainProject() {
-        Project pom = new Project(SemanticVersion.from("1.2.3-SNAPSHOT"), "name", "description", "17", getDependencies(), "");
+        Project project = new Project(SemanticVersion.from("1.2.3-SNAPSHOT"), "name", "description", "17", getDependencies(), "");
 
-        RestProject restPom = RestProject.from(pom);
+        RestProject restProject = RestProject.from(project);
 
-        assertThat(restPom).isNotNull();
-        assertThat(restPom.version()).isEqualTo("1.2.3-SNAPSHOT");
-        assertThat(restPom.projectName()).isEqualTo("name");
-        assertThat(restPom.description()).isEqualTo("description");
-        assertThat(restPom.java()).isEqualTo("17");
-        assertThat(restPom.dependencies()).containsExactlyElementsOf(getRestDependencies());
+        assertThat(restProject).isNotNull();
+        assertThat(restProject.version()).isEqualTo("1.2.3-SNAPSHOT");
+        assertThat(restProject.projectName()).isEqualTo("name");
+        assertThat(restProject.description()).isEqualTo("description");
+        assertThat(restProject.java()).isEqualTo("17");
+        assertThat(restProject.dependencies()).containsExactlyElementsOf(getRestDependencies());
     }
 
     private List<RestDependency> getRestDependencies() {
