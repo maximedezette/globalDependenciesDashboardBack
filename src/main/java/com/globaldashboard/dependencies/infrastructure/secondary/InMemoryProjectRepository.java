@@ -39,17 +39,27 @@ public class InMemoryProjectRepository implements ProjectRepository {
     }
     @Override
     public void save(Project project, ProjectDescription projectDescription) {
-        Set<DependencyEntity> dependencies = project.dependencies()
-                .stream()
-                .map(dependency -> new DependencyEntity().from(dependency))
-                .collect(Collectors.toSet());
+        Set<DependencyEntity> dependencies = getDependencies(project);
+        ProjectEntity projectEntity = getProjectEntity(project, projectDescription, dependencies);
 
+        this.projectSpringRepository.save(projectEntity);
+    }
 
+    private static ProjectEntity getProjectEntity(Project project, ProjectDescription projectDescription, Set<DependencyEntity> dependencies) {
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setName(projectDescription.name());
         projectEntity.setPomURL(projectDescription.pomURL());
         projectEntity.setDependencies(dependencies);
+        projectEntity.setJavaVersion(project.java());
+        projectEntity.setDescription(project.description());
+        projectEntity.setVersion(project.projectVersion().readableValue());
+        return projectEntity;
+    }
 
-        this.projectSpringRepository.save(projectEntity);
+    private static Set<DependencyEntity> getDependencies(Project project) {
+        return project.dependencies()
+                .stream()
+                .map(DependencyEntity::from)
+                .collect(Collectors.toSet());
     }
 }
