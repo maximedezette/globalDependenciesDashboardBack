@@ -2,9 +2,7 @@ package com.globaldashboard.dependencies.application;
 
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.Objective;
-import com.globaldashboard.dependencies.domain.ProjectDescription;
 import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.dependencies.domain.port.secondary.PomHttpRetriever;
 import com.globaldashboard.dependencies.domain.port.secondary.ProjectRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +26,7 @@ public class ProjectService {
         this.objectiveService = objectiveService;
     }
 
-    public Set<ProjectDescription> getAllProjects() {
+    public Set<Project> getAllProjects() {
         return this.projectRepository.findAll();
     }
 
@@ -57,7 +55,7 @@ public class ProjectService {
                 .anyMatch(objective::isAchievedBy);
     }
 
-    public void save(Project pom, ProjectDescription projectDescription) {
-        this.projectRepository.save(pom, projectDescription);
+    public void save(Project project) {
+        this.projectRepository.save(project);
     }
 }

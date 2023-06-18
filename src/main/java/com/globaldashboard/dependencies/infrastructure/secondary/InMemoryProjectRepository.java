@@ -2,7 +2,6 @@ package com.globaldashboard.dependencies.infrastructure.secondary;
 
 
 import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.dependencies.domain.ProjectDescription;
 import com.globaldashboard.dependencies.domain.port.secondary.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,24 +30,24 @@ public class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public Set<ProjectDescription> findAll() {
+    public Set<Project> findAll() {
         return this.projectSpringRepository.findAll()
                 .stream()
-                .map(ProjectEntity::toProjectDescriptionDomain)
+                .map(ProjectEntity::toDomain)
                 .collect(Collectors.toSet());
     }
     @Override
-    public void save(Project project, ProjectDescription projectDescription) {
+    public void save(Project project) {
         Set<DependencyEntity> dependencies = getDependencies(project);
-        ProjectEntity projectEntity = getProjectEntity(project, projectDescription, dependencies);
+        ProjectEntity projectEntity = getProjectEntity(project, dependencies);
 
         this.projectSpringRepository.save(projectEntity);
     }
 
-    private static ProjectEntity getProjectEntity(Project project, ProjectDescription projectDescription, Set<DependencyEntity> dependencies) {
+    private static ProjectEntity getProjectEntity(Project project, Set<DependencyEntity> dependencies) {
         ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setName(projectDescription.name());
-        projectEntity.setPomURL(projectDescription.pomURL());
+        projectEntity.setName(project.projectName());
+        projectEntity.setPomURL(project.pomURL());
         projectEntity.setDependencies(dependencies);
         projectEntity.setJavaVersion(project.java());
         projectEntity.setDescription(project.description());

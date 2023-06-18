@@ -1,14 +1,10 @@
 package com.globaldashboard.dependencies.infrastructure.primary;
 
-import com.globaldashboard.dependencies.domain.ProjectDescription;
+import com.globaldashboard.dependencies.domain.Project;
 
 public record RestProjectDescription(String name, String pomURL) {
-
-    public static RestProjectDescription from(ProjectDescription project) {
-        return new RestProjectDescription(project.name(), project.pomURL());
+    public static RestProjectDescription from(Project project) {
+        return new RestProjectDescription(project.projectName(), project.pomURL());
     }
 
-    public ProjectDescription toDomain() {
-        return new ProjectDescription(this.name, this.pomURL);
-    }
 }

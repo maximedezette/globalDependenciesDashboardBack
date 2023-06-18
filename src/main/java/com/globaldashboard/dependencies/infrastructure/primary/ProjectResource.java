@@ -2,7 +2,6 @@ package com.globaldashboard.dependencies.infrastructure.primary;
 
 import com.globaldashboard.dependencies.application.ProjectService;
 import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.dependencies.domain.ProjectDescription;
 import com.globaldashboard.dependencies.domain.port.secondary.PomHttpRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,29 +42,24 @@ public class ProjectResource {
 
     @GetMapping
     public Set<RestProject> getAll() {
-        Set<String> pomURLs = this.projectService.getAllProjects().stream()
-                .map(ProjectDescription::pomURL)
-                .collect(Collectors.toSet());
+        Set<Project> projects = this.projectService.getAllProjects();
 
-        Set<Project> poms = this.pomHttpRetriever.getFromURLs(pomURLs);
-
-        return poms.stream()
+        return projects.stream()
                 .map(RestProject::from)
                 .collect(Collectors.toSet());
     }
 
     @GetMapping("/{name}")
     public RestProject get(@PathVariable String name) {
-        Project pom = this.projectService.getProjectByName(name);
+        Project project = this.projectService.getProjectByName(name);
 
-        return RestProject.from(pom);
+        return RestProject.from(project);
     }
 
     @PostMapping
     public void saveProject(@RequestBody RestProjectDescription restProject) {
-        ProjectDescription projectDescription = restProject.toDomain();
-        Project project = this.pomHttpRetriever.getFromURL(projectDescription.pomURL());
-        this.projectService.save(project, projectDescription);
+        Project project = this.pomHttpRetriever.getFromURL(restProject.pomURL(), restProject.name());
+        this.projectService.save(project);
     }
 
     @DeleteMapping("/{projectName}")

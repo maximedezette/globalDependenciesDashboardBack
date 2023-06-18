@@ -26,7 +26,7 @@ public class PomServiceHttp implements PomHttpRetriever {
     }
 
     @Override
-    public Project getFromURL(String url)  {
+    public Project getFromURL(String url, String name)  {
 
         URL pomURL;
         Document pomXML;
@@ -41,14 +41,7 @@ public class PomServiceHttp implements PomHttpRetriever {
             throw new InvalidPomException(e);
         }
 
-        return this.pomFactory.getPomFrom(Map.of("", pomXML), url);
-    }
-
-    @Override
-    public Set<Project> getFromURLs(Set<String> pomURLs) {
-        return pomURLs.stream()
-                .map(this::getFromURL)
-                .collect(Collectors.toSet());
+        return this.pomFactory.getPomFrom(Map.of("", pomXML), url, name);
     }
 
     private Document getPomXML(HttpURLConnection pomResponse) throws SAXException, IOException, ParserConfigurationException {

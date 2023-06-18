@@ -1,5 +1,6 @@
-package com.globaldashboard.domain;
+package com.globaldashboard.dependencies.domain;
 
+import com.globaldashboard.domain.PomUrl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
