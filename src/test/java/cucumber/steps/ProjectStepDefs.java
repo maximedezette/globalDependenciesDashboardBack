@@ -1,14 +1,19 @@
 package cucumber.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.dependencies.infrastructure.primary.RestDependency;
+import com.globaldashboard.dependencies.infrastructure.primary.RestProject;
 import com.globaldashboard.dependencies.infrastructure.primary.RestProjectDescription;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectSpringRepository;
 import com.globaldashboard.fixture.DependencyFixture;
 import com.globaldashboard.fixture.ProjectFixture;
+import cucumber.utils.DependencyDatatableConverter;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -20,6 +25,8 @@ import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -30,12 +37,11 @@ public class ProjectStepDefs {
 
     private final ProjectSpringRepository projectRepository;
 
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 
     @Autowired
     public ProjectStepDefs(ProjectSpringRepository projectRepository) {
         this.projectRepository = projectRepository;
-        this.objectMapper = new ObjectMapper();
     }
 
     @Before
@@ -113,6 +119,17 @@ public class ProjectStepDefs {
         }
     }
 
+    @Given("There is a project named {string} with dependencies")
+    public void thereIsAProjectNamedWithDependencies(String name, DataTable dataTable) {
+        List<Dependency> dependencies = DependencyDatatableConverter.getFrom(dataTable);
+
+        if (this.projectRepository.findByName(name) == null) {
+            Project project = new Project(SemanticVersion.from("0.0.1-SNAPSHOT"), name, "Demo project for Apero Tech", "17", dependencies, ProjectFixture.DEFAULT_POM_URL );
+
+            this.projectRepository.save(ProjectEntity.from(project));
+        }
+    }
+
     @When("A user delete a project with name {string}")
     public void aUserDeleteAProjectWithName(String name) {
         RequestSpecification request = RestAssured.given();
@@ -145,6 +162,39 @@ public class ProjectStepDefs {
         assertThat(HttpStepDefs.response.body().asString())
                 .isEqualTo(getExpectedStatus());
 
+    }
+
+    @When("A user asks for the dependencies of the project named {string}")
+    public void aUserAsksForTheDependenciesOfTheProjectNamed(String name) {
+        RequestSpecification request = RestAssured.given();
+
+        HttpStepDefs.response = request
+                .get("/projects/"+ name);
+    }
+    @When("A user asks for all the dependencies")
+    public void aUserAsksForAllTheDependencies() {
+        RequestSpecification request = RestAssured.given();
+
+        HttpStepDefs.response = request
+                .get("/projects");
+    }
+    @Then("The following dependencies should be displayed")
+    public void theFollowingDependenciesShouldBeDisplayed(DataTable dataTable) throws JsonProcessingException {
+
+        List<RestDependency> expectedDependencies = DependencyDatatableConverter.getFrom(dataTable)
+                .stream()
+                .map(RestDependency::from)
+                .toList();
+
+        RestProject[] restProject = objectMapper.readValue(HttpStepDefs.response.body().asString(), RestProject[].class);
+
+        List<RestDependency> restDependencies = Arrays.stream(restProject)
+                .map(RestProject::dependencies)
+                .flatMap(Collection::stream)
+                .toList();
+
+        assertThat(restDependencies)
+                .containsExactlyInAnyOrderElementsOf(expectedDependencies);
     }
 
     private String getExpectedStatus() {
