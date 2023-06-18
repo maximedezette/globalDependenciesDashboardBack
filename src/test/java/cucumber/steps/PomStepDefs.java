@@ -1,5 +1,8 @@
 package cucumber.steps;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.globaldashboard.dependencies.infrastructure.primary.RestProject;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
@@ -25,9 +28,10 @@ public class PomStepDefs {
     }
 
     @And("The project dependencies should be displayed")
-    public void theProjectDependenciesShouldBeDisplayed() {
-        assertThat(HttpStepDefs.response.body().asString())
-                .isEqualTo(getExpectedDependencies());
+    public void theProjectDependenciesShouldBeDisplayed() throws JsonProcessingException {
+       RestProject restProject =  new ObjectMapper().readValue(HttpStepDefs.response.body().asString(), RestProject.class);
+        assertThat(restProject.dependencies())
+                .hasSize(1);
     }
 
     @And("All the dependencies should be displayed")

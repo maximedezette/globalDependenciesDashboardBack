@@ -20,13 +20,11 @@ import java.util.stream.Collectors;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
-    private final PomHttpRetriever pomHttpRetriever;
 
     private final ObjectiveService objectiveService;
 
-    public ProjectService(ProjectRepository projectRepository, PomHttpRetriever pomHttpRetriever, ObjectiveService objectiveService) {
+    public ProjectService(ProjectRepository projectRepository, ObjectiveService objectiveService) {
         this.projectRepository = projectRepository;
-        this.pomHttpRetriever = pomHttpRetriever;
         this.objectiveService = objectiveService;
     }
 
@@ -39,15 +37,14 @@ public class ProjectService {
         this.projectRepository.deleteByName(projectName);
     }
 
-    public ProjectDescription getProjectByName(String name) {
+    public Project getProjectByName(String name) {
         return this.projectRepository.findByName(name);
     }
 
     public Map<Objective, Boolean> getProjectStatus(String name) {
-        ProjectDescription project = this.projectRepository.findByName(name);
-        Project projectInformation = this.pomHttpRetriever.getFromURL(project.pomURL());
+        Project project = this.projectRepository.findByName(name);
         Collection<Objective> objectives = this.objectiveService.getAllObjectives();
-        List<Dependency> dependencies = projectInformation.dependencies();
+        List<Dependency> dependencies = project.dependencies();
 
         return objectives.stream()
                 .collect(Collectors.toMap(Function.identity(),

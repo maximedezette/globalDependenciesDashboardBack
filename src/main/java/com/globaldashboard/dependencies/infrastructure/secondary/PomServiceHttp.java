@@ -41,7 +41,7 @@ public class PomServiceHttp implements PomHttpRetriever {
             throw new InvalidPomException(e);
         }
 
-        return this.pomFactory.getPomFrom(Map.of("", pomXML));
+        return this.pomFactory.getPomFrom(Map.of("", pomXML), url);
     }
 
     @Override
