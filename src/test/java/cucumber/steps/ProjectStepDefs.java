@@ -2,10 +2,14 @@ package cucumber.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.globaldashboard.dependencies.domain.Project;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.primary.RestProjectDescription;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectSpringRepository;
+import com.globaldashboard.fixture.DependencyFixture;
 import com.globaldashboard.fixture.ProjectDescriptionFixtures;
+import com.globaldashboard.fixture.ProjectFixture;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -19,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -56,7 +61,7 @@ public class ProjectStepDefs {
     private List<RestProjectDescription> getProjectsDescription() {
         return getProjects()
                 .stream()
-                .map(ProjectEntity::toDomain)
+                .map(ProjectEntity::toProjectDescriptionDomain)
                 .map(RestProjectDescription::from)
                 .toList();
     }
@@ -67,15 +72,9 @@ public class ProjectStepDefs {
     }
 
     private List<ProjectEntity> getProjects() {
-        ProjectEntity aperoTech = new ProjectEntity();
-        aperoTech.setName("AperoTech");
-        aperoTech.setPomURL(ProjectDescriptionFixtures.DEFAULT_POM_URL);
-
-        ProjectEntity kataApi = new ProjectEntity();
-        kataApi.setName("KataApi");
-        kataApi.setPomURL("https://github.com/maximedezette/kata-api/blob/main/pom.xml");
-
-        return List.of(aperoTech, kataApi);
+      return Stream.of(ProjectFixture.aperoTech(), ProjectFixture.kataApi())
+              .map(ProjectEntity::from)
+              .toList();
     }
 
 
@@ -109,11 +108,9 @@ public class ProjectStepDefs {
     @Given("There is a project named {string} stored in the database")
     public void thereIsAProjectNamedStoredInTheDatabase(String name) {
         if (this.projectRepository.findByName(name) == null) {
-            ProjectEntity project = new ProjectEntity();
-            project.setName(name);
-            project.setPomURL(ProjectDescriptionFixtures.DEFAULT_POM_URL);
+            Project project = new Project(SemanticVersion.from("0.0.1-SNAPSHOT"), name, "Demo project for Apero Tech", "17", List.of(DependencyFixture.getCucumber()), ProjectDescriptionFixtures.DEFAULT_POM_URL );
 
-            this.projectRepository.save(project);
+            this.projectRepository.save(ProjectEntity.from(project));
         }
     }
 

@@ -17,7 +17,7 @@ class RestPomTest {
 
     @Test
     void shouldConvertFromDomainProject() {
-        Project pom = new Project(SemanticVersion.from("1.2.3-SNAPSHOT"), "name", "description", "17", getDependencies());
+        Project pom = new Project(SemanticVersion.from("1.2.3-SNAPSHOT"), "name", "description", "17", getDependencies(), "");
 
         RestProject restPom = RestProject.from(pom);
 

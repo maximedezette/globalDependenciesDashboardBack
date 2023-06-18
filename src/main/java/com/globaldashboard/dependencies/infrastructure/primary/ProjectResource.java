@@ -56,8 +56,7 @@ public class ProjectResource {
 
     @GetMapping("/{name}")
     public RestProject get(@PathVariable String name) {
-        String pomURL = this.projectService.getProjectByName(name).pomURL();
-        Project pom = this.pomHttpRetriever.getFromURL(pomURL);
+        Project pom = this.projectService.getProjectByName(name);
 
         return RestProject.from(pom);
     }
@@ -65,8 +64,8 @@ public class ProjectResource {
     @PostMapping
     public void saveProject(@RequestBody RestProjectDescription restProject) {
         ProjectDescription projectDescription = restProject.toDomain();
-        Project pom = this.pomHttpRetriever.getFromURL(projectDescription.pomURL());
-        this.projectService.save(pom, projectDescription);
+        Project project = this.pomHttpRetriever.getFromURL(projectDescription.pomURL());
+        this.projectService.save(project, projectDescription);
     }
 
     @DeleteMapping("/{projectName}")

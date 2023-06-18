@@ -21,7 +21,7 @@ public class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public ProjectDescription findByName(String name) {
+    public Project findByName(String name) {
         return this.projectSpringRepository.findByName(name).toDomain();
     }
 
@@ -34,7 +34,7 @@ public class InMemoryProjectRepository implements ProjectRepository {
     public Set<ProjectDescription> findAll() {
         return this.projectSpringRepository.findAll()
                 .stream()
-                .map(ProjectEntity::toDomain)
+                .map(ProjectEntity::toProjectDescriptionDomain)
                 .collect(Collectors.toSet());
     }
     @Override

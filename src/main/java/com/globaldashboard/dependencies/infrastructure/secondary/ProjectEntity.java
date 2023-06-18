@@ -1,10 +1,15 @@
 package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.ProjectDescription;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "project")
@@ -37,11 +42,42 @@ public class ProjectEntity {
     )
     private Set<DependencyEntity> dependencies;
 
-    public ProjectDescription toDomain() {
+    public static ProjectEntity from(Project project) {
+        Set<DependencyEntity> dependencyEntities = project.dependencies()
+                .stream()
+                .map(DependencyEntity::from)
+                .collect(Collectors.toSet());
+
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setVersion(project.projectVersion().readableValue());
+        projectEntity.setJavaVersion(project.java());
+        projectEntity.setName(project.projectName());
+        projectEntity.setDescription(project.description());
+        projectEntity.setDependencies(dependencyEntities);
+        projectEntity.setPomURL(project.pomURL());
+        return projectEntity;
+    }
+
+    public Project toDomain() {
+
+        List<Dependency> dependencyList = this.dependencies.stream()
+                .map(DependencyEntity::toDomain)
+                .toList();
+
+        return new Project(
+                SemanticVersion.from(this.version),
+                this.name,
+                this.description,
+                this.javaVersion,
+                dependencyList,
+                this.pomURL
+        );
+    }
+    public ProjectDescription toProjectDescriptionDomain() {
         return new ProjectDescription(this.name, this.pomURL);
     }
 
-    public static ProjectEntity from(ProjectDescription project) {
+    public static ProjectEntity fromProjectDescription(ProjectDescription project) {
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setName(project.name());
         projectEntity.setPomURL(project.pomURL());

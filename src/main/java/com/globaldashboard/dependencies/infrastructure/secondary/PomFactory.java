@@ -13,7 +13,7 @@ import java.util.*;
 
 public class PomFactory {
 
-    public Project getPomFrom(Map<String, Document> pomXMLs) {
+    public Project getPomFrom(Map<String, Document> pomXMLs, String pomURL) {
 
         String projectVersion = "";
         String projectName = "";
@@ -47,7 +47,7 @@ public class PomFactory {
 
         }
 
-        return new Project(SemanticVersion.from(projectVersion), projectName, description, java, dependencies);
+        return new Project(SemanticVersion.from(projectVersion), projectName, description, java, dependencies, pomURL);
     }
 
     private Map<String, String> getProperties(Element documentElement, Map<String, Document> pomXMLs) {
