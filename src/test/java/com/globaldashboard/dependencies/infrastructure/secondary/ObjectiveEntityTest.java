@@ -11,7 +11,7 @@ class ObjectiveEntityTest {
 
     @Test
     void shouldBeBuildableFromDomain() {
-        Objective objective = new Objective(new GroupId("org.springframework.boot"), "spring-boot-starter-parent", SemanticVersion.from("2.6.1"));
+        Objective objective = new Objective("org.springframework.boot", "spring-boot-starter-parent","2.6.1");
         ObjectiveEntity expectedObjectiveEntity = new ObjectiveEntity();
         expectedObjectiveEntity.setGroupId("org.springframework.boot");
         expectedObjectiveEntity.setArtifactId("spring-boot-starter-parent");
@@ -30,7 +30,7 @@ class ObjectiveEntityTest {
         objectiveEntity.setGroupId("org.springframework.boot");
         objectiveEntity.setArtifactId("spring-boot-starter-parent");
         objectiveEntity.setVersion("2.6.1");
-        Objective expectedObjective = new Objective(new GroupId("org.springframework.boot"), "spring-boot-starter-parent", SemanticVersion.from("2.6.1"));
+        Objective expectedObjective = new Objective("org.springframework.boot", "spring-boot-starter-parent", "2.6.1");
 
         Objective objective = objectiveEntity.toDomain();
 
