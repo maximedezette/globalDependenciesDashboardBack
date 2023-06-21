@@ -5,14 +5,14 @@ import com.globaldashboard.dependencies.domain.Project;
 import java.util.Collection;
 import java.util.List;
 
-public record RestProject(String version, String projectName, String description, String java,
+public record RestProject(String version, String name, String description, String java, String pomURL,
                           Collection<RestDependency> dependencies) {
-    public static RestProject from(Project pom) {
-        String version = pom.projectVersion().toString();
-        List<RestDependency> restDependencies = pom.dependencies().stream()
+    public static RestProject from(Project project) {
+        String version = project.projectVersion().toString();
+        List<RestDependency> restDependencies = project.dependencies().stream()
                 .map(RestDependency::from)
                 .toList();
 
-        return new RestProject(version, pom.projectName(), pom.description(), pom.java(), restDependencies);
+        return new RestProject(version, project.projectName(), project.description(), project.java(), project.pomURL(), restDependencies);
     }
 }
