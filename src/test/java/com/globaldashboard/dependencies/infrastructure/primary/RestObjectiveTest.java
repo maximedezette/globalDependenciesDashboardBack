@@ -22,7 +22,7 @@ class RestObjectiveTest {
 
     @Test
     void shouldBeConvertableFromDomain() {
-        Objective objective = new Objective(new GroupId("org.springframework.boot"), "spring-boot-starter-parent", SemanticVersion.from("2.6.0"));
+        Objective objective = new Objective("org.springframework.boot", "spring-boot-starter-parent", "2.6.0");
 
         RestObjective restObjective = RestObjective.from(objective);
 
