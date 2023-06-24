@@ -5,8 +5,6 @@
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="directory" />
     <dir value="$PROJECT_DIR$/src/test/java/com/globaldashboard/unit/dependencies" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
+    <method v="2" />
   </configuration>
 </component>
