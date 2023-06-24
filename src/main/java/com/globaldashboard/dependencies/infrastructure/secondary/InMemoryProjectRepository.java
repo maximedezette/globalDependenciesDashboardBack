@@ -38,27 +38,8 @@ public class InMemoryProjectRepository implements ProjectRepository {
     }
     @Override
     public void save(Project project) {
-        Set<DependencyEntity> dependencies = getDependencies(project);
-        ProjectEntity projectEntity = getProjectEntity(project, dependencies);
+        ProjectEntity projectEntity = ProjectEntity.from(project);
 
         this.projectSpringRepository.save(projectEntity);
-    }
-
-    private static ProjectEntity getProjectEntity(Project project, Set<DependencyEntity> dependencies) {
-        ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setName(project.projectName());
-        projectEntity.setPomURL(project.pomURL());
-        projectEntity.setDependencies(dependencies);
-        projectEntity.setJavaVersion(project.java());
-        projectEntity.setDescription(project.description());
-        projectEntity.setVersion(project.projectVersion().readableValue());
-        return projectEntity;
-    }
-
-    private static Set<DependencyEntity> getDependencies(Project project) {
-        return project.dependencies()
-                .stream()
-                .map(DependencyEntity::from)
-                .collect(Collectors.toSet());
     }
 }
