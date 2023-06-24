@@ -42,7 +42,14 @@ public class PomFactory {
 
         }
 
-        return new Project(SemanticVersion.from(projectVersion), projectName, description, java, dependencies, pomURL);
+       return Project.builder()
+                .version(projectVersion)
+                .name(projectName)
+                .description(description)
+                .javaVersion(java)
+                .dependencies(dependencies)
+                .pomURL(pomURL)
+                .build();
     }
 
     private Map<String, String> getProperties(Element documentElement, Map<String, Document> pomXMLs) {
