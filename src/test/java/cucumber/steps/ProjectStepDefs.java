@@ -113,7 +113,10 @@ public class ProjectStepDefs {
     @Given("There is a project named {string} stored in the database")
     public void thereIsAProjectNamedStoredInTheDatabase(String name) {
         if (this.projectRepository.findByName(name) == null) {
-            Project project = new Project(SemanticVersion.from("0.0.1-SNAPSHOT"), name, "Demo project for Apero Tech", "17", List.of(DependencyFixture.getCucumber()), ProjectFixture.DEFAULT_POM_URL );
+            Project project =  ProjectFixture
+                    .fullBuilder()
+                    .name(name)
+                    .build();
 
             this.projectRepository.save(ProjectEntity.from(project));
         }
@@ -124,7 +127,11 @@ public class ProjectStepDefs {
         List<Dependency> dependencies = DependencyDatatableConverter.getFrom(dataTable);
 
         if (this.projectRepository.findByName(name) == null) {
-            Project project = new Project(SemanticVersion.from("0.0.1-SNAPSHOT"), name, "Demo project for Apero Tech", "17", dependencies, ProjectFixture.DEFAULT_POM_URL );
+            Project project = ProjectFixture
+                    .fullBuilder()
+                    .name(name)
+                    .dependencies(dependencies)
+                    .build();
 
             this.projectRepository.save(ProjectEntity.from(project));
         }
