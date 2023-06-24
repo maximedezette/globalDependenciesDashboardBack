@@ -1,8 +1,8 @@
-package com.globaldashboard.dependencies.infrastructure.primary;
+package com.globaldashboard.unit.dependencies.infrastructure.primary;
 
-import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Objective;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.dependencies.infrastructure.primary.RestObjective;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,5 +1,6 @@
-package com.globaldashboard.dependencies.application;
+package com.globaldashboard.integration.application;
 
+import com.globaldashboard.dependencies.application.ProjectService;
 import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.infrastructure.secondary.DependencyEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectEntity;
@@ -7,6 +8,7 @@ import com.globaldashboard.dependencies.infrastructure.secondary.ProjectSpringRe
 import com.globaldashboard.fixture.DependencyFixture;
 import com.globaldashboard.fixture.ProjectFixture;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
