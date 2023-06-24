@@ -1,5 +1,9 @@
-package com.globaldashboard.dependencies.domain;
+package com.globaldashboard.unit.dependencies.domain;
 
+import com.globaldashboard.dependencies.domain.Dependency;
+import com.globaldashboard.dependencies.domain.GroupId;
+import com.globaldashboard.dependencies.domain.Objective;
+import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.fixture.GroupIdFixture;
 import org.junit.jupiter.api.Test;
 

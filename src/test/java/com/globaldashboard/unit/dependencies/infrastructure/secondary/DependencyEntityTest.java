@@ -1,8 +1,9 @@
-package com.globaldashboard.dependencies.infrastructure.secondary;
+package com.globaldashboard.unit.dependencies.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.dependencies.infrastructure.secondary.DependencyEntity;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

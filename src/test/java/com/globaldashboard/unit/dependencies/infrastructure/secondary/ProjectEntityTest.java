@@ -1,4 +1,4 @@
-package com.globaldashboard.dependencies.infrastructure.secondary;
+package com.globaldashboard.unit.dependencies.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.infrastructure.secondary.DependencyEntity;

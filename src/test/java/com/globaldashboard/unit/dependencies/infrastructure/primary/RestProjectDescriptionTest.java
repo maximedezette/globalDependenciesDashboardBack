@@ -1,6 +1,7 @@
-package com.globaldashboard.dependencies.infrastructure.primary;
+package com.globaldashboard.unit.dependencies.infrastructure.primary;
 
 import com.globaldashboard.dependencies.domain.Project;
+import com.globaldashboard.dependencies.infrastructure.primary.RestProjectDescription;
 import com.globaldashboard.fixture.ProjectFixture;
 import org.junit.jupiter.api.Test;
 

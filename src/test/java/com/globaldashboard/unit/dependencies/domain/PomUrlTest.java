@@ -1,4 +1,4 @@
-package com.globaldashboard.dependencies.domain;
+package com.globaldashboard.unit.dependencies.domain;
 
 import com.globaldashboard.domain.PomUrl;
 import org.junit.jupiter.api.Test;

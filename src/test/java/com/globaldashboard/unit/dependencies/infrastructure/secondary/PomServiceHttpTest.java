@@ -1,6 +1,7 @@
-package com.globaldashboard.dependencies.infrastructure.secondary;
+package com.globaldashboard.unit.dependencies.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.infrastructure.primary.exception.InvalidPomException;
+import com.globaldashboard.dependencies.infrastructure.secondary.PomServiceHttp;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
