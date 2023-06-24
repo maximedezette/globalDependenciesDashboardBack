@@ -63,14 +63,14 @@ public class ProjectEntity {
                 .map(DependencyEntity::toDomain)
                 .toList();
 
-        return new Project(
-                SemanticVersion.from(this.version),
-                this.name,
-                this.description,
-                this.javaVersion,
-                dependencyList,
-                this.pomURL
-        );
+        return Project.builder()
+                .version(this.version)
+                .name(this.name)
+                .description(this.description)
+                .javaVersion(this.javaVersion)
+                .dependencies(dependencyList)
+                .pomURL(this.pomURL)
+                .build();
     }
 
     public long getId() {
