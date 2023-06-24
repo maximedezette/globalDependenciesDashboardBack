@@ -14,7 +14,7 @@ class DependencyEntityTest {
 
     @Test
     void shouldBeBuildableFromDomain() {
-        Dependency dependency = new Dependency(new GroupId("io.cucumber"), "cucumber-bom", Optional.of(SemanticVersion.from("7.6.0")));
+        Dependency dependency = new Dependency("io.cucumber", "cucumber-bom", "7.6.0");
         DependencyEntity expected = new DependencyEntity();
         expected.setVersion("7.6.0");
         expected.setGroupId("io.cucumber");
@@ -29,7 +29,7 @@ class DependencyEntityTest {
 
     @Test
     void shouldBeBuildableFromDependencyWithNoVersion() {
-        Dependency dependency = new Dependency(new GroupId("io.cucumber"), "cucumber-bom");
+        Dependency dependency = new Dependency("io.cucumber", "cucumber-bom");
         DependencyEntity expected = new DependencyEntity();
         expected.setGroupId("io.cucumber");
         expected.setVersion("0.0.0");
@@ -48,7 +48,7 @@ class DependencyEntityTest {
         dependencyEntity.setGroupId("io.cucumber");
         dependencyEntity.setVersion("7.6.0");
         dependencyEntity.setArtifactId("cucumber-bom");
-        Dependency expected = new Dependency(new GroupId("io.cucumber"), "cucumber-bom", Optional.ofNullable(SemanticVersion.from("7.6.0")));
+        Dependency expected = new Dependency("io.cucumber", "cucumber-bom", "7.6.0");
 
         Dependency actual = dependencyEntity.toDomain();
 
@@ -61,7 +61,7 @@ class DependencyEntityTest {
         dependencyEntity.setGroupId("io.cucumber");
         dependencyEntity.setVersion("0.0.0");
         dependencyEntity.setArtifactId("cucumber-bom");
-        Dependency expected = new Dependency(new GroupId("io.cucumber"), "cucumber-bom");
+        Dependency expected = new Dependency("io.cucumber", "cucumber-bom");
 
         Dependency actual = dependencyEntity.toDomain();
 

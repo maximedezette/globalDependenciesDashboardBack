@@ -62,7 +62,7 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldReplaceVariableVersionInDependencies() {
-        Dependency dependency = new Dependency(new GroupId("org.junit"), "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
+        Dependency dependency = new Dependency("org.junit", "junit-bom", "5.9.0");
 
         assertThat(project.dependencies()).contains(dependency);
     }
@@ -84,7 +84,7 @@ class PomEntityFactoryTest {
                 "com.global-dependenceies-dashboard-back", pomXML,
                 "", childPomXML
         ), "", "");
-        Dependency expectedDependency = new Dependency(new GroupId("org.junit"), "junit-bom", Optional.of(SemanticVersion.from("5.9.0")));
+        Dependency expectedDependency = new Dependency("org.junit", "junit-bom", "5.9.0");
 
         assertThat(pom.dependencies()).contains(expectedDependency);
     }

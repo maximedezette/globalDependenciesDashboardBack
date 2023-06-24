@@ -40,10 +40,10 @@ public class DependencyEntity {
 
     public Dependency toDomain() {
         if (this.version.equals(NO_VERSION)) {
-            return new Dependency(new GroupId(this.groupId), this.artifactId);
+            return new Dependency(this.groupId, this.artifactId);
         }
 
-        return new Dependency(new GroupId(this.groupId), this.artifactId, Optional.ofNullable(SemanticVersion.from(this.getVersion())));
+        return new Dependency(this.groupId, this.artifactId, this.getVersion());
     }
 
     public String getGroupId() {

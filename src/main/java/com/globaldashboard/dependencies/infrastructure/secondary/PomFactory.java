@@ -112,10 +112,10 @@ public class PomFactory {
         }
 
         if (version != null && version.length() > 0) {
-            return new Dependency(new GroupId(groupIdLabel), artifactId, Optional.of(SemanticVersion.from(version)));
+            return new Dependency(groupIdLabel, artifactId, version);
         }
         
-        return new Dependency(new GroupId(groupIdLabel), artifactId, Optional.empty());
+        return new Dependency(groupIdLabel, artifactId);
 
     }
 

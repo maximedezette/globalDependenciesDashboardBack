@@ -27,7 +27,7 @@ class DependencyDatatableConverterTest {
         List<Dependency> dependencies = DependencyDatatableConverter.getFrom(dataTable);
 
         assertThat(dependencies).hasSize(1)
-                .containsExactly(new Dependency(new GroupId("io.cucumber"), "cucumber-bom", Optional.ofNullable(SemanticVersion.from("7.6.0"))));
+                .containsExactly(new Dependency("io.cucumber", "cucumber-bom", "7.6.0"));
     }
 
     private static DataTableTypeRegistryTableConverter getDataTableTypeRegistryTableConverter() {
