@@ -35,6 +35,6 @@ class RestProjectTest {
     }
 
     private List<Dependency> getDependencies() {
-        return List.of(new Dependency(new GroupId("goupId"), "artifactId", Optional.of(SemanticVersion.from("1.0.0"))));
+        return List.of(new Dependency("goupId", "artifactId", "1.0.0"));
     }
 }

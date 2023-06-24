@@ -22,6 +22,6 @@ public class DependencyDatatableConverter {
     }
 
     private static Dependency getDependency(Map<String, String> entry) {
-        return new Dependency(new GroupId(entry.get("groupId")), entry.get("artifactId"), Optional.ofNullable(SemanticVersion.from(entry.get("version"))));
+        return new Dependency(entry.get("groupId"), entry.get("artifactId"), entry.get("version"));
     }
 }
