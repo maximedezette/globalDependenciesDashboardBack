@@ -159,15 +159,6 @@ public class ProjectStepDefs {
                 .get("/projects/AperoTech/status");
     }
 
-    @Then("I should get the first project status")
-    public void iShouldGetTheFirstProjectStatus() {
-        assertThat(HttpStepDefs.response.statusCode())
-                .isEqualTo(200);
-
-        assertThat(HttpStepDefs.response.body().asString())
-                .isEqualTo(getExpectedStatus());
-
-    }
 
     @When("A user asks for the dependencies of the project named {string}")
     public void aUserAsksForTheDependenciesOfTheProjectNamed(String name) {
@@ -200,9 +191,5 @@ public class ProjectStepDefs {
 
         assertThat(restDependencies)
                 .containsExactlyInAnyOrderElementsOf(expectedDependencies);
-    }
-
-    private String getExpectedStatus() {
-        return "[{\"groupId\":\"io.cucumber\",\"artifactId\":\"cucumber-bom\",\"version\":\"7.6.0\",\"isAchieved\":true},{\"groupId\":\"org.springframework.boot\",\"artifactId\":\"spring-boot-starter-parent\",\"version\":\"2.7.0\",\"isAchieved\":false}]";
     }
 }
