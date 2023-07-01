@@ -31,10 +31,10 @@ class RestProjectTest {
     }
 
     private List<RestDependency> getRestDependencies() {
-        return List.of(new RestDependency("goupId", "artifactId", "1.0.0"));
+        return List.of(new RestDependency("goupId", "artifact-id", "1.0.0"));
     }
 
     private List<Dependency> getDependencies() {
-        return List.of(new Dependency("goupId", "artifactId", "1.0.0"));
+        return List.of(new Dependency("goupId", "artifact-id", "1.0.0"));
     }
 }

@@ -10,8 +10,8 @@ class RestDependencyTest {
 
     @Test
     void shouldBeBuildableFromDomain() {
-        Dependency dependency = new Dependency("groupId", "artifactId", "1.2.3-SNAPSHOT");
-        RestDependency expectedRestDependency = new RestDependency("groupId", "artifactId", "1.2.3-SNAPSHOT");
+        Dependency dependency = new Dependency("groupId", "artifact-id", "1.2.3-SNAPSHOT");
+        RestDependency expectedRestDependency = new RestDependency("groupId", "artifact-id", "1.2.3-SNAPSHOT");
 
         RestDependency restDependency = RestDependency.from(dependency);
 

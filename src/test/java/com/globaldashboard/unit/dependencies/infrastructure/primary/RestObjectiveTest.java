@@ -16,7 +16,7 @@ class RestObjectiveTest {
         Objective objective = restObjective.toDomain();
 
         assertThat(objective.groupId().label()).isEqualTo("org.springframework.boot");
-        assertThat(objective.artifactId()).isEqualTo("spring-boot-starter-parent");
+        assertThat(objective.artifactId().name()).isEqualTo("spring-boot-starter-parent");
         assertThat(objective.version()).isEqualTo(SemanticVersion.from("2.6.0"));
     }
 

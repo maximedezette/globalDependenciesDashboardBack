@@ -31,7 +31,7 @@ class ObjectiveTest {
     @Test
     void shouldNotBeAchievedWhenArtifactIdDoesntMatch() {
         Objective objective = getObjective();
-        Dependency dependency = new Dependency("groupId", "differentArtifactId", "2.0.0");
+        Dependency dependency = new Dependency("groupId", "different-artifact-id", "2.0.0");
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -41,7 +41,7 @@ class ObjectiveTest {
     @Test
     void shouldNotBeAchievedWhenGroupIdDoesntMatch() {
         Objective objective = getObjective();
-        Dependency dependency = new Dependency("differentGroupId", "artifactId", "2.0.0");
+        Dependency dependency = new Dependency("differentGroupId", "artifact-id", "2.0.0");
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -50,7 +50,7 @@ class ObjectiveTest {
 
     @Test
     void shouldNotBeAchievedWhenDependencyAtLowerVersion() {
-        Dependency dependency = new Dependency("groupId", "artifactId", "0.0.0");
+        Dependency dependency = new Dependency("groupId", "artifact-id", "0.0.0");
         Objective objective = getObjective();
 
         boolean achieved = objective.isAchievedBy(dependency);
@@ -59,10 +59,10 @@ class ObjectiveTest {
     }
 
     private Objective getObjective() {
-        return new Objective("groupId", "artifactId", "1.0.0");
+        return new Objective("groupId", "artifact-id", "1.0.0");
     }
 
     private Dependency getDependency() {
-        return new Dependency("groupId", "artifactId", "2.0.0");
+        return new Dependency("groupId", "artifact-id", "2.0.0");
     }
 }

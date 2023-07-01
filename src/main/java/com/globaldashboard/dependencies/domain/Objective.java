@@ -1,9 +1,11 @@
 package com.globaldashboard.dependencies.domain;
 
-public record Objective(GroupId groupId, String artifactId, SemanticVersion version) {
+import com.globaldashboard.domain.ArtifactId;
+
+public record Objective(GroupId groupId, ArtifactId artifactId, SemanticVersion version) {
 
     public Objective(String groupId, String artifactId, String version) {
-        this(new GroupId(groupId), artifactId, SemanticVersion.from(version));
+        this(new GroupId(groupId), new ArtifactId(artifactId), SemanticVersion.from(version));
     }
 
     public boolean isAchievedBy(Dependency dependency) {
