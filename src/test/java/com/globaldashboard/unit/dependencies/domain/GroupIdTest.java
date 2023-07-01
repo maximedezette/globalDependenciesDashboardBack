@@ -33,6 +33,19 @@ public class GroupIdTest {
                .isThrownBy(() -> new GroupId(label));
     }
 
+    @Test
+    void shouldNotBuildGroupIdWithNoValue() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new GroupId(""));
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new GroupId("    "));
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new GroupId(null));
+
+    }
+
     public static Stream<Arguments> validGroupIdsProvider() {
         return Stream.of(
                 Arguments.of("io.cucumber"),
