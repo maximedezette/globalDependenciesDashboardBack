@@ -31,7 +31,7 @@ public class DependencyEntity {
 
     public static DependencyEntity from(Dependency dependency) {
         DependencyEntity dependencyEntity = new DependencyEntity();
-        dependencyEntity.setArtifactId(dependency.artifactId());
+        dependencyEntity.setArtifactId(dependency.artifactId().name());
         dependencyEntity.setGroupId(dependency.groupId().label());
         SemanticVersion version = dependency.version().orElse(SemanticVersion.from(""));
         dependencyEntity.setVersion(version.readableValue());

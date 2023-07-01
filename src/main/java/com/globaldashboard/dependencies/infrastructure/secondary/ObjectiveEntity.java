@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Objective;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.domain.ArtifactId;
 
 import javax.persistence.*;
 
@@ -30,7 +31,7 @@ public class ObjectiveEntity {
 
         objectiveEntity.setGroupId(objective.groupId().label());
         objectiveEntity.setVersion(objective.version().toString());
-        objectiveEntity.setArtifactId(objective.artifactId());
+        objectiveEntity.setArtifactId(objective.artifactId().name());
 
         return objectiveEntity;
     }
@@ -68,6 +69,6 @@ public class ObjectiveEntity {
     }
 
     public Objective toDomain() {
-        return new Objective(new GroupId(this.groupId), this.artifactId, SemanticVersion.from(this.version));
+        return new Objective(new GroupId(this.groupId), new ArtifactId(this.artifactId), SemanticVersion.from(this.version));
     }
 }
