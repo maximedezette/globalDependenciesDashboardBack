@@ -5,13 +5,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.primary.RestDependency;
 import com.globaldashboard.dependencies.infrastructure.primary.RestProject;
 import com.globaldashboard.dependencies.infrastructure.primary.RestProjectDescription;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectSpringRepository;
-import com.globaldashboard.fixture.DependencyFixture;
 import com.globaldashboard.fixture.ProjectFixture;
 import cucumber.utils.DependencyDatatableConverter;
 import io.cucumber.datatable.DataTable;
@@ -71,8 +69,8 @@ public class ProjectStepDefs {
                 .toList();
     }
 
-    @Given("There are projects stored in the database")
-    public void thereAreProjectsStoredInTheDatabase() {
+    @Given("There are projects stored")
+    public void thereAreProjectsStored() {
         this.projectRepository.saveAll(getProjects());
     }
 
@@ -110,8 +108,8 @@ public class ProjectStepDefs {
         assertThat(project.getPomURL()).isEqualTo(ProjectFixture.DEFAULT_POM_URL);
     }
 
-    @Given("There is a project named {string} stored in the database")
-    public void thereIsAProjectNamedStoredInTheDatabase(String name) {
+    @Given("There is a project named {string} stored")
+    public void thereIsAProjectNamedStored(String name) {
         if (this.projectRepository.findByName(name) == null) {
             Project project =  ProjectFixture
                     .fullBuilder()

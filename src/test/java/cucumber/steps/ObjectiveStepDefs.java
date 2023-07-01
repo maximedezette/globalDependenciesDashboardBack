@@ -2,9 +2,6 @@ package cucumber.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.globaldashboard.dependencies.domain.GroupId;
-import com.globaldashboard.dependencies.domain.Objective;
-import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.primary.RestObjective;
 import com.globaldashboard.dependencies.infrastructure.secondary.ObjectiveEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ObjectiveSpringRepository;
@@ -18,7 +15,6 @@ import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,8 +82,8 @@ public class ObjectiveStepDefs {
         HttpStepDefs.response = request.get("/objectives");
     }
 
-    @And("There are objectives stored in the database with these characteristics")
-    public void thereAreObjectivesStoredInTheDatabaseWithTheseCharacteristics(DataTable dataTable) {
+    @And("There are objectives stored with these characteristics")
+    public void thereAreObjectivesStoredWithTheseCharacteristics(DataTable dataTable) {
         List<Map<String, String>> valueMap = dataTable.entries();
 
         valueMap.forEach(entry -> {
