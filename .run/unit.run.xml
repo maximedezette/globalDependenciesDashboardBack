@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="unit" type="JUnit" factoryName="JUnit">
     <module name="globaldashboard" />
+    <extension name="coverage" sample_coverage="false" />
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="directory" />

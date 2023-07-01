@@ -56,7 +56,9 @@ class SemanticVersionTest {
 
     @Test
     void shouldBuildDefaultVersion() {
-        assertThat(SemanticVersion.from("")).isNotNull();
+
+        assertThat(SemanticVersion.from(null)).isEqualTo(SemanticVersion.from("0.0.0"));
+        assertThat(SemanticVersion.from("")).isEqualTo(SemanticVersion.from("0.0.0"));
     }
 
 }
