@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 public class HttpResponseDatatableComparator {
     public static boolean match(DataTable dataTable, Response response) {
-        String responseContent = response.getBody().asString();
+        String responseContent = getResponseContent(response);
         List<Map<String, String>> entries = dataTable.entries();
         List<String> stringsToMatch = new ArrayList<>();
 
@@ -24,6 +24,13 @@ public class HttpResponseDatatableComparator {
         }
 
         return true;
+    }
+
+    private static String getResponseContent(Response response) {
+        String responseContent = response.getBody().asString();
+        responseContent = responseContent.replaceAll("true", "\"true\"");
+        responseContent = responseContent.replaceAll("false", "\"false\"");
+        return responseContent;
     }
 
     private static String getStringRepresentation(Map<String, String> entry) {
