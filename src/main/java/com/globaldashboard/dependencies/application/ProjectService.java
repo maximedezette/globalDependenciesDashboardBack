@@ -4,9 +4,9 @@ import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.Objective;
 import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.port.secondary.ProjectRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

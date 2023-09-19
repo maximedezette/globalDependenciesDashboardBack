@@ -3,9 +3,8 @@ package com.globaldashboard.dependencies.infrastructure.secondary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.dependencies.domain.SemanticVersion;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
