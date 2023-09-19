@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:alpine
+    ports:
+      - "2254:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dependencies
+    volumes:
+      - ./data:/var/lib/postgresql/data
