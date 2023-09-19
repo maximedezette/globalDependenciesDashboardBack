@@ -2,11 +2,11 @@ package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.globaldashboard.dependencies.domain.Dependency;
-import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "dependency")

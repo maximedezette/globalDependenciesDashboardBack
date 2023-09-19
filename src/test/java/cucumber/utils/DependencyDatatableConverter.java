@@ -1,14 +1,11 @@
 package cucumber.utils;
 
 import com.globaldashboard.dependencies.domain.Dependency;
-import com.globaldashboard.dependencies.domain.GroupId;
-import com.globaldashboard.dependencies.domain.SemanticVersion;
 import io.cucumber.datatable.DataTable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class DependencyDatatableConverter {
 

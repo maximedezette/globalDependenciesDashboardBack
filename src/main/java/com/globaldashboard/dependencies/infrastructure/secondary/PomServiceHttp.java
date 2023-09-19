@@ -1,7 +1,7 @@
 package com.globaldashboard.dependencies.infrastructure.secondary;
 
-import com.globaldashboard.dependencies.domain.port.secondary.PomHttpRetriever;
 import com.globaldashboard.dependencies.domain.Project;
+import com.globaldashboard.dependencies.domain.port.secondary.PomHttpRetriever;
 import com.globaldashboard.dependencies.infrastructure.primary.exception.InvalidPomException;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class PomServiceHttp implements PomHttpRetriever {
@@ -26,7 +24,7 @@ public class PomServiceHttp implements PomHttpRetriever {
     }
 
     @Override
-    public Project getFromURL(String url, String name)  {
+    public Project getFromURL(String url, String name) {
 
         URL pomURL;
         Document pomXML;

@@ -5,8 +5,8 @@ import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Objective;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.domain.ArtifactId;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 
 @Entity
 @Table(name = "objective")
