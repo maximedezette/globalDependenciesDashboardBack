@@ -17,6 +17,7 @@
     <properties>
         <java.version>17</java.version>
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
+        <rest-assured.version>5.3.2</rest-assured.version>
     </properties>
 
     <dependencyManagement>
@@ -120,10 +121,23 @@
             <artifactId>cucumber-spring</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- see https://github.com/rest-assured/rest-assured/issues/1612 -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>4.2.0</version>
+            <version>${rest-assured.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.groovy</groupId>
+                    <artifactId>groovy-xml</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>xml-path</artifactId>
+            <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
 
