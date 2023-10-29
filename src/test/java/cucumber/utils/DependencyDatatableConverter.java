@@ -28,6 +28,11 @@ public class DependencyDatatableConverter {
         }
 
 
-        return new Dependency(entry.get("groupId"), entry.get("artifactId"), entry.get("version"), CVE);
+        return Dependency.builder()
+                .withGroupId(entry.get("groupId"))
+                .withArtifactId(entry.get("artifactId"))
+                .withVersion(entry.get("version"))
+                .withCVEList(CVE)
+                .build();
     }
 }

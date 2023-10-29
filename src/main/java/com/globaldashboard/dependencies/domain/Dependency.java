@@ -1,6 +1,8 @@
 package com.globaldashboard.dependencies.domain;
 
 import com.globaldashboard.domain.ArtifactId;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,25 +10,48 @@ import java.util.Optional;
 public record Dependency(GroupId groupId, ArtifactId artifactId, Optional<SemanticVersion> version,
                          Optional<List<CVE>> CVEList) {
 
-    public Dependency(String groupId, String artifactId) {
-        this(new GroupId(groupId), new ArtifactId(artifactId), Optional.empty(), Optional.empty());
+    public Dependency(Builder builder) {
+        this(builder.groupId, builder.artifactId, builder.version, builder.cveList);
     }
 
-    public Dependency(String groupId, String artifactId, String version) {
-        this(new GroupId(groupId), new ArtifactId(artifactId), Optional.of(SemanticVersion.from(version)), Optional.empty());
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public Dependency(String groupId, String artifactId, String version, List<String> identifiers) {
-        this(new GroupId(groupId), new ArtifactId(artifactId), Optional.of(SemanticVersion.from(version)), getCves(identifiers));
-    }
+    public static final class Builder {
+        private GroupId groupId;
+        private ArtifactId artifactId;
+        private Optional<SemanticVersion> version = Optional.empty();
+        private Optional<List<CVE>> cveList = Optional.empty();
 
-    private static Optional<List<CVE>> getCves(List<String> identifiers) {
-        if (identifiers == null || identifiers.size() == 0) {
-            return Optional.empty();
+        public Builder withGroupId(String groupId) {
+            this.groupId = new GroupId(groupId);
+            return this;
         }
-        return Optional.of(identifiers
-                .stream()
-                .map(CVE::new)
-                .toList());
+
+        public Builder withArtifactId(String artifactId) {
+            this.artifactId = new ArtifactId(artifactId);
+            return this;
+        }
+
+        public Builder withVersion(String version) {
+            if (StringUtils.isNotBlank(version)) {
+                this.version = Optional.ofNullable(SemanticVersion.from(version));
+            }
+            return this;
+        }
+
+        public Builder withCVEList(List<String> identifierList) {
+            if (!CollectionUtils.isEmpty(identifierList)) {
+                this.cveList = Optional.of(identifierList.stream()
+                        .map(CVE::new)
+                        .toList());
+            }
+            return this;
+        }
+
+        public Dependency build() {
+            return new Dependency(this);
+        }
     }
 }

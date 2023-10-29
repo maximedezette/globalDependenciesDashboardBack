@@ -33,6 +33,11 @@ class RestProjectTest {
     }
 
     private List<Dependency> getDependencies() {
-        return List.of(new Dependency("goupId", "artifact-id", "1.0.0"));
+        Dependency dependency = Dependency.builder()
+                .withGroupId("goupId")
+                .withArtifactId("artifact-id")
+                .withVersion("1.0.0")
+                .build();
+        return List.of(dependency);
     }
 }

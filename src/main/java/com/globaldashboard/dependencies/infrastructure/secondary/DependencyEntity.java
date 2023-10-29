@@ -54,7 +54,10 @@ public class DependencyEntity {
 
     public Dependency toDomain() {
         if (this.version.equals(NO_VERSION)) {
-            return new Dependency(this.groupId, this.artifactId);
+            return Dependency.builder()
+                    .withGroupId(this.groupId)
+                    .withArtifactId(this.artifactId)
+                    .build();
         }
 
         List<String> CVEIdentifiers = this.getCVEList()
@@ -62,7 +65,12 @@ public class DependencyEntity {
                 .map(CVEEntity::getIdentifier)
                 .toList();
 
-        return new Dependency(this.groupId, this.artifactId, this.getVersion(), CVEIdentifiers);
+        return Dependency.builder()
+                .withGroupId(this.groupId)
+                .withArtifactId(this.artifactId)
+                .withVersion(this.getVersion())
+                .withCVEList(CVEIdentifiers)
+                .build();
     }
 
     public String getGroupId() {
