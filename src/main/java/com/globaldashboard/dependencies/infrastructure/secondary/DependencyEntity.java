@@ -6,6 +6,7 @@ import com.globaldashboard.dependencies.domain.SemanticVersion;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,19 @@ public class DependencyEntity {
     @ManyToMany(mappedBy = "dependencies")
     private Set<ProjectEntity> projects = new HashSet<>();
 
+
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "cve_dependency",
+            joinColumns = @JoinColumn(name = "cve_id"),
+            inverseJoinColumns = @JoinColumn(name = "dependency_id")
+    )
+    private Set<CVEEntity> CVEList = new HashSet<>();
+
     public static DependencyEntity from(Dependency dependency) {
         DependencyEntity dependencyEntity = new DependencyEntity();
         dependencyEntity.setArtifactId(dependency.artifactId().name());
@@ -43,7 +57,12 @@ public class DependencyEntity {
             return new Dependency(this.groupId, this.artifactId);
         }
 
-        return new Dependency(this.groupId, this.artifactId, this.getVersion());
+        List<String> CVEIdentifiers = this.getCVEList()
+                .stream()
+                .map(CVEEntity::getIdentifier)
+                .toList();
+
+        return new Dependency(this.groupId, this.artifactId, this.getVersion(), CVEIdentifiers);
     }
 
     public String getGroupId() {
@@ -70,4 +89,11 @@ public class DependencyEntity {
         this.version = version;
     }
 
+    public Set<CVEEntity> getCVEList() {
+        return CVEList;
+    }
+
+    public void addCVE(CVEEntity cve) {
+        this.CVEList.add(cve);
+    }
 }
