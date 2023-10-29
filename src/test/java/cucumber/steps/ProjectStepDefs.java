@@ -8,6 +8,7 @@ import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.infrastructure.primary.RestDependency;
 import com.globaldashboard.dependencies.infrastructure.primary.RestProject;
 import com.globaldashboard.dependencies.infrastructure.primary.RestProjectDescription;
+import com.globaldashboard.dependencies.infrastructure.secondary.CVEEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.ProjectSpringRepository;
 import com.globaldashboard.fixture.ProjectFixture;
@@ -34,7 +35,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ProjectStepDefs {
 
     private final ProjectSpringRepository projectRepository;
-
     private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 
     @Autowired
@@ -61,6 +61,7 @@ public class ProjectStepDefs {
         assertThat(HttpStepDefs.response.body().asString())
                 .isEqualTo(expectedProjects);
     }
+
     private List<RestProjectDescription> getProjectsDescription() {
         return getProjects()
                 .stream()
@@ -75,9 +76,9 @@ public class ProjectStepDefs {
     }
 
     private List<ProjectEntity> getProjects() {
-      return Stream.of(ProjectFixture.aperoTech(), ProjectFixture.kataApi())
-              .map(ProjectEntity::from)
-              .toList();
+        return Stream.of(ProjectFixture.aperoTech(), ProjectFixture.kataApi())
+                .map(ProjectEntity::from)
+                .toList();
     }
 
 
@@ -111,7 +112,7 @@ public class ProjectStepDefs {
     @Given("There is a project named {string} stored")
     public void thereIsAProjectNamedStored(String name) {
         if (this.projectRepository.findByName(name) == null) {
-            Project project =  ProjectFixture
+            Project project = ProjectFixture
                     .fullBuilder()
                     .name(name)
                     .build();
@@ -165,8 +166,9 @@ public class ProjectStepDefs {
         RequestSpecification request = RestAssured.given();
 
         HttpStepDefs.response = request
-                .get("/projects/"+ name);
+                .get("/projects/" + name);
     }
+
     @When("A user asks for all the dependencies")
     public void aUserAsksForAllTheDependencies() {
         RequestSpecification request = RestAssured.given();
@@ -174,6 +176,7 @@ public class ProjectStepDefs {
         HttpStepDefs.response = request
                 .get("/projects");
     }
+
     @Then("The following dependencies should be displayed")
     public void theFollowingDependenciesShouldBeDisplayed(DataTable dataTable) throws JsonProcessingException {
 
@@ -191,5 +194,24 @@ public class ProjectStepDefs {
 
         assertThat(restDependencies)
                 .containsExactlyInAnyOrderElementsOf(expectedDependencies);
+    }
+
+    @When("A user asks for the dependencies of the project named {string} with security issues")
+    public void aUserAsksForTheDependenciesOfTheProjectNamedAperoTechWithSecurityIssues(String name) {
+        RequestSpecification request = RestAssured.given();
+
+        HttpStepDefs.response = request
+                .get("/projects/" + name);
+    }
+
+    @And("The CVE {string} affect the dependencies")
+    public void theCVEAffectDependency(String identifier) {
+        CVEEntity cveEntity = new CVEEntity();
+        cveEntity.setIdentifier(identifier);
+        ProjectEntity aperoTech = projectRepository.findByName("AperoTech");
+        aperoTech.getDependencies()
+                .forEach(dependencyEntity -> dependencyEntity.addCVE(cveEntity));
+
+        projectRepository.save(aperoTech);
     }
 }

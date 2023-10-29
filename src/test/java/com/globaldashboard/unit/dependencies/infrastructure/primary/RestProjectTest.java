@@ -1,7 +1,6 @@
 package com.globaldashboard.unit.dependencies.infrastructure.primary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
-import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.primary.RestDependency;
@@ -9,7 +8,6 @@ import com.globaldashboard.dependencies.infrastructure.primary.RestProject;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +29,7 @@ class RestProjectTest {
     }
 
     private List<RestDependency> getRestDependencies() {
-        return List.of(new RestDependency("goupId", "artifact-id", "1.0.0"));
+        return List.of(new RestDependency("goupId", "artifact-id", "1.0.0", List.of()));
     }
 
     private List<Dependency> getDependencies() {
