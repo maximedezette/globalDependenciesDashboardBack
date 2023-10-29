@@ -31,7 +31,9 @@ class ObjectiveTest {
     @Test
     void shouldNotBeAchievedWhenArtifactIdDoesntMatch() {
         Objective objective = getObjective();
-        Dependency dependency = new Dependency("org.apache.logging.log4j", "different-artifact-id", "2.20.0");
+        Dependency dependency = getDefaultBuilder()
+                .withArtifactId("different-artifact-id")
+                .build();
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -41,7 +43,9 @@ class ObjectiveTest {
     @Test
     void shouldNotBeAchievedWhenGroupIdDoesntMatch() {
         Objective objective = getObjective();
-        Dependency dependency = new Dependency("differentGroupId", "log4j", "2.20.0");
+        Dependency dependency = getDefaultBuilder()
+                .withGroupId("differentGroupId")
+                .build();
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -50,7 +54,9 @@ class ObjectiveTest {
 
     @Test
     void shouldNotBeAchievedWhenDependencyAtLowerVersion() {
-        Dependency dependency = new Dependency("org.apache.logging.log4j", "log4j", "0.0.0");
+        Dependency dependency = getDefaultBuilder()
+                .withVersion("0.0.0")
+                .build();
         Objective objective = getObjective();
 
         boolean achieved = objective.isAchievedBy(dependency);
@@ -63,6 +69,13 @@ class ObjectiveTest {
     }
 
     private Dependency getDependency() {
-        return new Dependency("org.apache.logging.log4j", "log4j", "2.20.0");
+        return getDefaultBuilder().build();
+    }
+
+    private Dependency.Builder getDefaultBuilder() {
+        return Dependency.builder()
+                .withGroupId("org.apache.logging.log4j")
+                .withArtifactId("log4j")
+                .withVersion("2.20.0");
     }
 }

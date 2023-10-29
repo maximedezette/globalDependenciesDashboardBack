@@ -1,10 +1,10 @@
 package com.globaldashboard.unit.dependencies.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
-import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Project;
 import com.globaldashboard.dependencies.domain.SemanticVersion;
 import com.globaldashboard.dependencies.infrastructure.secondary.PomFactory;
+import com.globaldashboard.fixture.DependencyFixture;
 import com.globaldashboard.fixture.DocumentPomFixtures;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -62,7 +61,7 @@ class PomEntityFactoryTest {
 
     @Test
     void shouldReplaceVariableVersionInDependencies() {
-        Dependency dependency = new Dependency("org.junit", "junit-bom", "5.9.0");
+        Dependency dependency = DependencyFixture.getJunit();
 
         assertThat(project.dependencies()).contains(dependency);
     }
@@ -84,7 +83,8 @@ class PomEntityFactoryTest {
                 "com.global-dependenceies-dashboard-back", pomXML,
                 "", childPomXML
         ), "", "");
-        Dependency expectedDependency = new Dependency("org.junit", "junit-bom", "5.9.0");
+        Dependency expectedDependency = DependencyFixture.getJunit();
+        ;
 
         assertThat(pom.dependencies()).contains(expectedDependency);
     }

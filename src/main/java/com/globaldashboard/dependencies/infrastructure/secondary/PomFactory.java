@@ -1,15 +1,16 @@
 package com.globaldashboard.dependencies.infrastructure.secondary;
 
 import com.globaldashboard.dependencies.domain.Dependency;
-import com.globaldashboard.dependencies.domain.GroupId;
 import com.globaldashboard.dependencies.domain.Project;
-import com.globaldashboard.dependencies.domain.SemanticVersion;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PomFactory {
 
@@ -42,7 +43,7 @@ public class PomFactory {
 
         }
 
-       return Project.builder()
+        return Project.builder()
                 .version(projectVersion)
                 .name(projectName)
                 .description(description)
@@ -111,11 +112,11 @@ public class PomFactory {
             }
         }
 
-        if (version != null && version.length() > 0) {
-            return new Dependency(groupIdLabel, artifactId, version);
-        }
-        
-        return new Dependency(groupIdLabel, artifactId);
+        return Dependency.builder()
+                .withGroupId(groupIdLabel)
+                .withArtifactId(artifactId)
+                .withVersion(version)
+                .build();
 
     }
 

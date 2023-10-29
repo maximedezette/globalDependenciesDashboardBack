@@ -3,6 +3,8 @@ package com.globaldashboard.unit.dependencies.infrastructure.secondary;
 import com.globaldashboard.dependencies.domain.Dependency;
 import com.globaldashboard.dependencies.infrastructure.secondary.CVEEntity;
 import com.globaldashboard.dependencies.infrastructure.secondary.DependencyEntity;
+import com.globaldashboard.fixture.CVEFixture;
+import com.globaldashboard.fixture.DependencyFixture;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,7 +15,7 @@ class DependencyEntityTest {
 
     @Test
     void shouldBeBuildableFromDomain() {
-        Dependency dependency = new Dependency("io.cucumber", "cucumber-bom", "7.6.0");
+        Dependency dependency = DependencyFixture.getCucumber();
         DependencyEntity expected = new DependencyEntity();
         expected.setVersion("7.6.0");
         expected.setGroupId("io.cucumber");
@@ -28,7 +30,10 @@ class DependencyEntityTest {
 
     @Test
     void shouldBeBuildableFromDependencyWithNoVersion() {
-        Dependency dependency = new Dependency("io.cucumber", "cucumber-bom");
+        Dependency dependency = Dependency.builder()
+                .withGroupId("io.cucumber")
+                .withArtifactId("cucumber-bom")
+                .build();
         DependencyEntity expected = new DependencyEntity();
         expected.setGroupId("io.cucumber");
         expected.setVersion("0.0.0");
@@ -44,14 +49,20 @@ class DependencyEntityTest {
     @Test
     void shouldBeConvertableToDomain() {
         CVEEntity cveEntity = new CVEEntity();
-        String identifier = "CVE-2023-35116";
+        String identifier = CVEFixture.validIdentifier;
         cveEntity.setIdentifier(identifier);
         DependencyEntity dependencyEntity = new DependencyEntity();
         dependencyEntity.setGroupId("io.cucumber");
         dependencyEntity.setVersion("7.6.0");
         dependencyEntity.setArtifactId("cucumber-bom");
         dependencyEntity.addCVE(cveEntity);
-        Dependency expected = new Dependency("io.cucumber", "cucumber-bom", "7.6.0", List.of(identifier));
+        Dependency expected = Dependency
+                .builder()
+                .withGroupId("io.cucumber")
+                .withArtifactId("cucumber-bom")
+                .withVersion("7.6.0")
+                .withCVEList(List.of(identifier))
+                .build();
 
         Dependency actual = dependencyEntity.toDomain();
 
@@ -64,7 +75,10 @@ class DependencyEntityTest {
         dependencyEntity.setGroupId("io.cucumber");
         dependencyEntity.setVersion("0.0.0");
         dependencyEntity.setArtifactId("cucumber-bom");
-        Dependency expected = new Dependency("io.cucumber", "cucumber-bom");
+        Dependency expected = Dependency.builder()
+                .withGroupId("io.cucumber")
+                .withArtifactId("cucumber-bom")
+                .build();
 
         Dependency actual = dependencyEntity.toDomain();
 

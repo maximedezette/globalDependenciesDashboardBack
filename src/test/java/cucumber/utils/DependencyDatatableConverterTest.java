@@ -1,8 +1,7 @@
 package cucumber.utils;
 
 import com.globaldashboard.dependencies.domain.Dependency;
-import com.globaldashboard.dependencies.domain.GroupId;
-import com.globaldashboard.dependencies.domain.SemanticVersion;
+import com.globaldashboard.fixture.DependencyFixture;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.datatable.DataTableTypeRegistry;
 import io.cucumber.datatable.DataTableTypeRegistryTableConverter;
@@ -10,11 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DependencyDatatableConverterTest {
+
+    private static DataTableTypeRegistryTableConverter getDataTableTypeRegistryTableConverter() {
+        return new DataTableTypeRegistryTableConverter(new DataTableTypeRegistry(Locale.FRANCE));
+    }
 
     @Test
     void shouldConvertDataTableToDependencies() {
@@ -27,11 +29,7 @@ class DependencyDatatableConverterTest {
         List<Dependency> dependencies = DependencyDatatableConverter.getFrom(dataTable);
 
         assertThat(dependencies).hasSize(1)
-                .containsExactly(new Dependency("io.cucumber", "cucumber-bom", "7.6.0"));
-    }
-
-    private static DataTableTypeRegistryTableConverter getDataTableTypeRegistryTableConverter() {
-        return new DataTableTypeRegistryTableConverter(new DataTableTypeRegistry(Locale.FRANCE));
+                .containsExactly(DependencyFixture.getCucumber());
     }
 
 }
