@@ -6,8 +6,7 @@ import com.globaldashboard.dependencies.domain.port.secondary.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Repository
 public class InMemoryProjectRepository implements ProjectRepository {
@@ -30,12 +29,13 @@ public class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public Set<Project> findAll() {
+    public List<Project> findAll() {
         return this.projectSpringRepository.findAll()
                 .stream()
                 .map(ProjectEntity::toDomain)
-                .collect(Collectors.toSet());
+                .toList();
     }
+
     @Override
     public void save(Project project) {
         ProjectEntity projectEntity = ProjectEntity.from(project);

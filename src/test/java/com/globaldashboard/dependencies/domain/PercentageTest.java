@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class PercentRateTest {
+public class PercentageTest {
 
     @Test
     void shouldGetValueForValidRate() {
-        PercentRate rate = new PercentRate(12);
+        Percentage rate = new Percentage(12);
 
         assertThat(rate.value()).isEqualTo(12);
     }
@@ -17,25 +17,25 @@ public class PercentRateTest {
     @Test
     void shouldBePositive() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> new PercentRate(-1));
+                .isThrownBy(() -> new Percentage(-1));
     }
 
     @Test
     void shouldBeUnderHundred() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> new PercentRate(101));
+                .isThrownBy(() -> new Percentage(101));
     }
 
     @Test
     void shouldBeBuildableFromNumeratorAndDenominator() {
-        PercentRate percentRate = PercentRate.buildFrom(5, 10);
+        Percentage percentRate = Percentage.buildFrom(5, 10);
 
         assertThat(percentRate.value()).isEqualTo(50);
     }
 
     @Test
     void shouldBeBuildableFromLongNumeratorAndLongDenominator() {
-        PercentRate percentRate = PercentRate.buildFrom(5L, 10L);
+        Percentage percentRate = Percentage.buildFrom(5L, 10L);
 
         assertThat(percentRate.value()).isEqualTo(50);
     }

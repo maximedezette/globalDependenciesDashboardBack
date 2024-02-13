@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,7 @@ public class ProjectResource {
 
     @GetMapping
     public Set<RestProject> getAll() {
-        Set<Project> projects = this.projectService.getAllProjects();
+        List<Project> projects = this.projectService.getAllProjects();
 
         return projects.stream()
                 .map(RestProject::from)
