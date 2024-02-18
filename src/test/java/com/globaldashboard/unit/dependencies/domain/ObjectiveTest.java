@@ -11,7 +11,8 @@ class ObjectiveTest {
     @Test
     void shouldBeAchievedWhenDependencyAtSameVersion() {
         Objective objective = getLog4jObjective();
-        Dependency dependency = getLog4jDependency();
+        Dependency dependency = getAchievingDependencyBuilder(objective)
+                .build();
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -21,7 +22,8 @@ class ObjectiveTest {
     @Test
     void shouldBeAchievedWhenDependencyAtHigherVersion() {
         Objective objective = getLog4jObjective();
-        Dependency dependency = getLog4jDependency();
+        Dependency dependency = getAchievingDependencyBuilder(objective)
+                .build();
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -31,7 +33,7 @@ class ObjectiveTest {
     @Test
     void shouldNotBeAchievedWhenArtifactIdDoesntMatch() {
         Objective objective = getLog4jObjective();
-        Dependency dependency = getLog4jBuilder()
+        Dependency dependency = getAchievingDependencyBuilder(objective)
                 .withArtifactId("different-artifact-id")
                 .build();
 
@@ -43,7 +45,7 @@ class ObjectiveTest {
     @Test
     void shouldNotBeAchievedWhenGroupIdDoesntMatch() {
         Objective objective = getLog4jObjective();
-        Dependency dependency = getLog4jBuilder()
+        Dependency dependency = getAchievingDependencyBuilder(objective)
                 .withGroupId("differentGroupId")
                 .build();
 
@@ -54,10 +56,10 @@ class ObjectiveTest {
 
     @Test
     void shouldNotBeAchievedWhenDependencyAtLowerVersion() {
-        Dependency dependency = getLog4jBuilder()
+        Objective objective = getLog4jObjective();
+        Dependency dependency = getAchievingDependencyBuilder(objective)
                 .withVersion("0.0.0")
                 .build();
-        Objective objective = getLog4jObjective();
 
         boolean achieved = objective.isAchievedBy(dependency);
 
@@ -68,14 +70,10 @@ class ObjectiveTest {
         return new Objective("org.apache.logging.log4j", "log4j", "2.20.0");
     }
 
-    private Dependency getLog4jDependency() {
-        return getLog4jBuilder().build();
-    }
-
-    private Dependency.Builder getLog4jBuilder() {
+    private Dependency.Builder getAchievingDependencyBuilder(Objective objective) {
         return Dependency.builder()
-                .withGroupId("org.apache.logging.log4j")
-                .withArtifactId("log4j")
-                .withVersion("2.20.0");
+                .withGroupId(objective.groupId().label())
+                .withArtifactId(objective.artifactId().name())
+                .withVersion(objective.version().readableValue());
     }
 }
